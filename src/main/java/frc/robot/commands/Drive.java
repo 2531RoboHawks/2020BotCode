@@ -32,29 +32,12 @@ public class Drive extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Camera cam = new Camera();
-    cam.execute();
-    cam.close();
 
-    double py1 = OI.leftJoy.getRawAxis(1);
-    double py2 = OI.leftJoy.getRawAxis(0);
-    boolean py3 = OI.leftJoy.getRawButton(4);
-    boolean py4 = OI.leftJoy.getRawButton(5);
-    double b1 = 0;
-    double b2 = 0;
 
-    if(py3) {
-      b1 = 1;
-    } else {
-      b1 = 0;
-    }
+    double py1 = OI.leftJoy.getRawAxis(0);
+    double py2 = OI.leftJoy.getRawAxis(1);
+    double py3 = OI.rightJoy.getRawAxis(0);
 
-    if(py4) {
-      b2 = 1;
-    } else {
-      b2 = 0;
-    }
-    
 
 
     if (Math.abs(py1) < this.deadzone) 
@@ -71,7 +54,7 @@ public class Drive extends Command {
     {
       Robot.m_subsystem.stop();
     } else {
-      Robot.m_subsystem.mecanumDrive(py1, py2, b1, b2);
+      Robot.m_subsystem.mecanumDrive(py1, py2, py3);
     }
     
   }

@@ -11,8 +11,8 @@ import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.OI;
 import frc.robot.Robot;
 
-public class Camera extends Command {
-  public Camera() {
+public class Gimble extends Command {
+  public Gimble() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
   }
@@ -27,10 +27,10 @@ public class Camera extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    boolean leftStickLeftButton = OI.leftJoy.getRawButton(8);
-    boolean leftStickRightButton = OI.leftJoy.getRawButton(9);
-    boolean rightStickLeftButton = OI.leftJoy.getRawButton(3);
-    boolean rightStickRightButton = OI.leftJoy.getRawButton(2);
+    final boolean leftStickLeftButton = OI.leftJoy.getRawButton(8);
+    final boolean leftStickRightButton = OI.leftJoy.getRawButton(9);
+    final boolean rightStickLeftButton = OI.leftJoy.getRawButton(3);
+    final boolean rightStickRightButton = OI.leftJoy.getRawButton(2);
     double leftCamera = 0;
     double rightCamera = 0;
 

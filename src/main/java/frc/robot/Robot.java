@@ -14,9 +14,9 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.commands.Camera;
 import frc.robot.commands.Drive;
-import frc.robot.subsystems.ExampleSubsystem;
+import frc.robot.commands.Gimble;
+import frc.robot.subsystems.DriveSystem;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -26,9 +26,8 @@ import frc.robot.subsystems.ExampleSubsystem;
  * project.
  */
 public class Robot extends TimedRobot {
-  public static ExampleSubsystem m_subsystem = new ExampleSubsystem();
+  public static DriveSystem m_subsystem = new DriveSystem();
   public static OI m_oi;
-  public static Camera cam = new Camera();
   
   Command m_autonomousCommand;
   SendableChooser<Command> m_chooser = new SendableChooser<>();
@@ -40,11 +39,9 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() {
     m_oi = new OI();
-    Camera camera = new Camera();
     m_chooser.setDefaultOption("Default Auto", new Drive());
 
     SmartDashboard.putData("Auto mode", m_chooser);
-    SmartDashboard.putData("Camera", camera);
 
     UsbCamera camera0 = CameraServer.getInstance().startAutomaticCapture(0);
     UsbCamera camera1 = CameraServer.getInstance().startAutomaticCapture(1);
@@ -65,6 +62,9 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
+    Gimble gim = new Gimble();
+    gim.start();
+
   }
 
   /**
