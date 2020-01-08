@@ -28,7 +28,8 @@ import frc.robot.subsystems.DriveSystem;
 public class Robot extends TimedRobot {
   public static DriveSystem m_subsystem = new DriveSystem();
   public static OI m_oi;
-  
+  private Gimble gim = new Gimble();
+
   Command m_autonomousCommand;
   SendableChooser<Command> m_chooser = new SendableChooser<>();
 
@@ -39,18 +40,12 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() {
     m_oi = new OI();
+    // RobotMap.camObj = new Vision("cam0", 0);
     m_chooser.setDefaultOption("Default Auto", new Drive());
 
     SmartDashboard.putData("Auto mode", m_chooser);
 
-    UsbCamera camera0 = CameraServer.getInstance().startAutomaticCapture(0);
-    UsbCamera camera1 = CameraServer.getInstance().startAutomaticCapture(1);
-
-    camera0.setFPS(60);
-    camera0.setResolution(200, 200);
-    camera1.setFPS(60);
-    camera1.setResolution(200, 200);
-  }
+    }
 
   /**
    * This function is called every robot packet, no matter the mode. Use
@@ -62,7 +57,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
-    Gimble gim = new Gimble();
+    
     gim.start();
 
   }
@@ -79,6 +74,7 @@ public class Robot extends TimedRobot {
   @Override
   public void disabledPeriodic() {
     Scheduler.getInstance().run();
+    gim.close();
   }
 
   /**

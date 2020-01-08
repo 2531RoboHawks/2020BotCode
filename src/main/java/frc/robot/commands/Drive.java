@@ -50,12 +50,9 @@ public class Drive extends Command {
       py2 = 0.0D;
     }
 
-    if (py1 == 0.0D && py2 == 0.0D) 
-    {
-      Robot.m_subsystem.stop();
-    } else {
-      Robot.m_subsystem.mecanumDrive(py1, py2, py3);
-    }
+
+      Robot.m_subsystem.mecanumDrive(-py1, py2, py3);
+    
     
   }
 
