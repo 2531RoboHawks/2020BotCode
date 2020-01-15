@@ -9,7 +9,6 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.OI;
-import frc.robot.Robot;
 
 public class Gimble extends Command {
   public Gimble() {
@@ -21,7 +20,6 @@ public class Gimble extends Command {
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    Robot.m_subsystem.turnCam(0,0);
   }
 
   
@@ -51,8 +49,6 @@ public class Gimble extends Command {
       rightCamera = 0.01;
     }
 
-    Robot.m_subsystem.turnCam(leftCamera, rightCamera);
-    System.out.println(leftCamera + " + " + rightCamera);
   }
 
   // Make this return true when this Command no longer needs to run execute()

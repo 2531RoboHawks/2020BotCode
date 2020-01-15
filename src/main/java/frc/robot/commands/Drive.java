@@ -16,11 +16,8 @@ import frc.robot.Robot;
  * An example command.  You can replace me with your own command.
  */
 public class Drive extends Command {
-  private double deadzone;
-
   public Drive() {
     // Use requires() here to declare subsystem dependencies
-    this.deadzone = 0.1D;
     requires(Robot.m_subsystem);
   }
 
@@ -33,25 +30,11 @@ public class Drive extends Command {
   @Override
   protected void execute() {
 
+    double leftX = OI.leftJoy.getRawAxis(0);
+    double leftY = OI.leftJoy.getRawAxis(1);
+    double rightX = OI.rightJoy.getRawAxis(0);
 
-    double py1 = OI.leftJoy.getRawAxis(0);
-    double py2 = OI.leftJoy.getRawAxis(1);
-    double py3 = OI.rightJoy.getRawAxis(0);
-
-
-
-    if (Math.abs(py1) < this.deadzone) 
-    {
-      py1 = 0.0D;
-    }
-
-    if (Math.abs(py2) < this.deadzone) 
-    {
-      py2 = 0.0D;
-    }
-
-
-      Robot.m_subsystem.mecanumDrive(-py1, py2, py3);
+    Robot.m_subsystem.mecanumDrive(-leftX, leftY, rightX);
     
     
   }
@@ -66,7 +49,7 @@ public class Drive extends Command {
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    Robot.m_subsystem.stop();
+    Robot.m_subsystem.rocStop();
   }
 
   // Called when another command which requires one or more of the same

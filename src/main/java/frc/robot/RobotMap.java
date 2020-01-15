@@ -7,8 +7,6 @@
 
 package frc.robot;
 
-import frclib.vision.Camera;
-
 /**
  * The RobotMap is a mapping from the ports sensors and actuators are wired into
  * to a variable name. This provides flexibility changing wiring, makes checking
@@ -16,5 +14,4 @@ import frclib.vision.Camera;
  * floating around.
  */
 public class RobotMap {
-  public static Camera camObj; 
 }

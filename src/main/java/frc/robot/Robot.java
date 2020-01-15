@@ -7,7 +7,6 @@
 
 package frc.robot;
 
-import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
@@ -40,7 +39,8 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() {
     m_oi = new OI();
-    // RobotMap.camObj = new Vision("cam0", 0);
+
+    CameraServer.getInstance().startAutomaticCapture();
     m_chooser.setDefaultOption("Default Auto", new Drive());
 
     SmartDashboard.putData("Auto mode", m_chooser);
@@ -75,6 +75,7 @@ public class Robot extends TimedRobot {
   public void disabledPeriodic() {
     Scheduler.getInstance().run();
     gim.close();
+    
   }
 
   /**
@@ -111,6 +112,7 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousPeriodic() {
     Scheduler.getInstance().run();
+    // updateCamera();
   }
 
   @Override
@@ -141,4 +143,5 @@ public class Robot extends TimedRobot {
   @Override
   public void testPeriodic() {
   }
+
 }
