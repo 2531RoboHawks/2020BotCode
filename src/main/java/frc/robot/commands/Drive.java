@@ -5,12 +5,12 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.OI;
 import frc.robot.Robot;
+import frc.robot.RobotMap;
 
 /**
  * An example command.  You can replace me with your own command.
@@ -34,9 +34,9 @@ public class Drive extends Command {
     double leftY = OI.leftJoy.getRawAxis(1);
     double rightX = OI.rightJoy.getRawAxis(0);
 
-    Robot.m_subsystem.mecanumDrive(-leftX, leftY, rightX);
+    Robot.m_subsystem.mecanumDrive(leftX, leftY, -rightX);
     
-    
+    System.out.println(RobotMap.gyro.getAccelInstantX());
   }
 
 

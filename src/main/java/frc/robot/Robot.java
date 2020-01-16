@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.Drive;
 import frc.robot.commands.Gimble;
 import frc.robot.subsystems.DriveSystem;
+import frc.robot.ADIS16448;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -39,11 +40,11 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() {
     m_oi = new OI();
-
-    CameraServer.getInstance().startAutomaticCapture();
     m_chooser.setDefaultOption("Default Auto", new Drive());
 
     SmartDashboard.putData("Auto mode", m_chooser);
+
+    RobotMap.gyro.calibrate();
 
     }
 
@@ -59,6 +60,7 @@ public class Robot extends TimedRobot {
   public void robotPeriodic() {
     
     gim.start();
+   
 
   }
 

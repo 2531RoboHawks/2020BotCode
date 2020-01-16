@@ -14,4 +14,6 @@ package frc.robot;
  * floating around.
  */
 public class RobotMap {
+    public static ADIS16448 gyro = new ADIS16448();
+
 }
