@@ -7,6 +7,9 @@
 
 package frc.robot;
 
+import com.analog.adis16448.frc.ADIS16448_IMU;
+ 
+
 /**
  * The RobotMap is a mapping from the ports sensors and actuators are wired into
  * to a variable name. This provides flexibility changing wiring, makes checking
@@ -14,6 +17,6 @@ package frc.robot;
  * floating around.
  */
 public class RobotMap {
-    public static ADIS16448 gyro = new ADIS16448();
+    public static final ADIS16448_IMU imu = new ADIS16448_IMU();
 
 }

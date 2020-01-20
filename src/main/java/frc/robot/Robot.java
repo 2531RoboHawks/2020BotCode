@@ -7,7 +7,8 @@
 
 package frc.robot;
 
-import edu.wpi.first.cameraserver.CameraServer;
+
+import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -16,7 +17,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.Drive;
 import frc.robot.commands.Gimble;
 import frc.robot.subsystems.DriveSystem;
-import frc.robot.ADIS16448;
+import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -29,6 +30,7 @@ public class Robot extends TimedRobot {
   public static DriveSystem m_subsystem = new DriveSystem();
   public static OI m_oi;
   private Gimble gim = new Gimble();
+  ADXRS450_Gyro gyro = new ADXRS450_Gyro(SPI.Port.kOnboardCS0);
 
   Command m_autonomousCommand;
   SendableChooser<Command> m_chooser = new SendableChooser<>();
@@ -44,7 +46,7 @@ public class Robot extends TimedRobot {
 
     SmartDashboard.putData("Auto mode", m_chooser);
 
-    RobotMap.gyro.calibrate();
+    gyro.calibrate();
 
     }
 
@@ -60,7 +62,7 @@ public class Robot extends TimedRobot {
   public void robotPeriodic() {
     
     gim.start();
-   
+    SmartDashboard.putNumber("pain2", gyro.getAngle());
 
   }
 
