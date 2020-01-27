@@ -15,6 +15,7 @@ import frc.robot.Robot;
  * An example command.  You can replace me with your own command.
  */
 public class Drive extends Command {
+  // TurnToAngle turn = new TurnToAngle(RobotMap.gyro.getAngle() + 90);
   public Drive() {
     // Use requires() here to declare subsystem dependencies
     requires(Robot.m_subsystem);
@@ -23,6 +24,7 @@ public class Drive extends Command {
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
+    
   }
 
   // Called repeatedly when this Command is scheduled to run
@@ -31,10 +33,10 @@ public class Drive extends Command {
 
     double leftX = OI.leftJoy.getRawAxis(0);
     double leftY = OI.leftJoy.getRawAxis(1);
-    double rightX = OI.rightJoy.getRawAxis(0);
 
-    Robot.m_subsystem.mecanumDrive(leftX, leftY, -rightX);
+    Robot.m_subsystem.coast(leftX, leftY);
     
+
     
   }
 
@@ -49,6 +51,7 @@ public class Drive extends Command {
   @Override
   protected void end() {
     Robot.m_subsystem.rocStop();
+    // turn.close();
   }
 
   // Called when another command which requires one or more of the same

@@ -8,16 +8,14 @@
 package frc.robot;
 
 
-import edu.wpi.first.wpilibj.SPI;
+
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.Drive;
-import frc.robot.commands.Gimble;
 import frc.robot.subsystems.DriveSystem;
-import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -29,8 +27,6 @@ import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 public class Robot extends TimedRobot {
   public static DriveSystem m_subsystem = new DriveSystem();
   public static OI m_oi;
-  private Gimble gim = new Gimble();
-  ADXRS450_Gyro gyro = new ADXRS450_Gyro(SPI.Port.kOnboardCS0);
 
   Command m_autonomousCommand;
   SendableChooser<Command> m_chooser = new SendableChooser<>();
@@ -45,8 +41,8 @@ public class Robot extends TimedRobot {
     m_chooser.setDefaultOption("Default Auto", new Drive());
 
     SmartDashboard.putData("Auto mode", m_chooser);
-
-    gyro.calibrate();
+    RobotMap.gyro.calibrate();
+    
 
     }
 
@@ -61,8 +57,7 @@ public class Robot extends TimedRobot {
   @Override
   public void robotPeriodic() {
     
-    gim.start();
-    SmartDashboard.putNumber("pain2", gyro.getAngle());
+    SmartDashboard.putNumber("pain2", RobotMap.gyro.getAngle());
 
   }
 
@@ -77,9 +72,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void disabledPeriodic() {
-    Scheduler.getInstance().run();
-    gim.close();
-    
+    Scheduler.getInstance().run();    
   }
 
   /**
@@ -96,7 +89,7 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
     m_autonomousCommand = m_chooser.getSelected();
-
+    // turn = new TurnToAngle(RobotMap.gyro.getAngle() + 90);
     /*
      * String autoSelected = SmartDashboard.getString("Auto Selector",
      * "Default"); switch(autoSelected) { case "My Auto": autonomousCommand
@@ -116,7 +109,8 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousPeriodic() {
     Scheduler.getInstance().run();
-    // updateCamera();
+    
+    // turn.start();
   }
 
   @Override

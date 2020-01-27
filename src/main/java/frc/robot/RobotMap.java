@@ -7,7 +7,8 @@
 
 package frc.robot;
 
-import com.analog.adis16448.frc.ADIS16448_IMU;
+import edu.wpi.first.wpilibj.ADXRS450_Gyro;
+import edu.wpi.first.wpilibj.SPI;
  
 
 /**
@@ -17,6 +18,7 @@ import com.analog.adis16448.frc.ADIS16448_IMU;
  * floating around.
  */
 public class RobotMap {
-    public static final ADIS16448_IMU imu = new ADIS16448_IMU();
+    public static ADXRS450_Gyro gyro = new ADXRS450_Gyro(SPI.Port.kOnboardCS0);
+
 
 }

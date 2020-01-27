@@ -8,7 +8,6 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.Spark;
-import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.commands.Drive;
 
@@ -17,13 +16,10 @@ import frc.robot.commands.Drive;
  */
 public class DriveSystem extends Subsystem {
 
-  private Spark backRight = new Spark(0);
+  private Spark backRight = new Spark(2);
   private Spark frontRight = new Spark(1);
-  private Spark frontLeft = new Spark(2);
+  private Spark frontLeft = new Spark(0);
   private Spark backLeft = new Spark(3);
-
-  private Talon centerMotor = new Talon(4);
-  
   
   @Override
   public void initDefaultCommand() {
@@ -49,15 +45,15 @@ public class DriveSystem extends Subsystem {
     backRight.set(-y + x - r);
 }
 
-public void rocker(double leftPow, double rightPow, double centerPow) {
-  frontLeft.set(-leftPow);
-  backLeft.set(-leftPow);
-  frontRight.set(rightPow);
-  backRight.set(rightPow);
-  centerMotor.set(centerPow);
+public void coast(double leftPow, double rightPow) {
+  frontLeft.set(-rightPow + leftPow);
+  backLeft.set(-rightPow + leftPow);
+  frontRight.set(rightPow + leftPow);
+  backRight.set(rightPow + leftPow);
+  // centerMotor.set(centerPow);
 }
 
-public void rockerArcade(double xPow, double yPow) {
+public void coastArcade(double xPow, double yPow) {
   frontLeft.set(-yPow + -xPow);
   backLeft.set(-yPow + xPow);
   frontRight.set(yPow + -xPow);
@@ -69,7 +65,7 @@ public void mecStop() {
 }
 
 public void rocStop() {
-  rocker(0.0D, 0.0D, 0.0D);
+  coast(0.0D, 0.0D);
 }
 
 }
