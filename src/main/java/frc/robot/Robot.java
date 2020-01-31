@@ -7,14 +7,16 @@
 
 package frc.robot;
 
-
-
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.commands.ControlPanel;
 import frc.robot.commands.Drive;
+import frc.robot.commands.TurnToAngle;
+
+import frc.robot.subsystems.CANSystem;
 import frc.robot.subsystems.DriveSystem;
 
 /**
@@ -26,7 +28,10 @@ import frc.robot.subsystems.DriveSystem;
  */
 public class Robot extends TimedRobot {
   public static DriveSystem m_subsystem = new DriveSystem();
+  public static CANSystem canSystem = new CANSystem();
   public static OI m_oi;
+  TurnToAngle turn;
+  ControlPanel panel = new ControlPanel();
 
   Command m_autonomousCommand;
   SendableChooser<Command> m_chooser = new SendableChooser<>();
@@ -40,9 +45,11 @@ public class Robot extends TimedRobot {
     m_oi = new OI();
     m_chooser.setDefaultOption("Default Auto", new Drive());
 
+    // Camera cam = new Camera("cam1", 1, 640, 480);
+    // Mat m = new Mat();
+    // cam.putImage(m);
     SmartDashboard.putData("Auto mode", m_chooser);
     RobotMap.gyro.calibrate();
-    
 
     }
 
@@ -58,7 +65,11 @@ public class Robot extends TimedRobot {
   public void robotPeriodic() {
     
     SmartDashboard.putNumber("pain2", RobotMap.gyro.getAngle());
-
+    SmartDashboard.putNumber("BarometricPressure", RobotMap.imu.getBarometricPressure());
+    SmartDashboard.putNumber("Temperature", (RobotMap.imu.getTemperature()*1.8)+32);
+    SmartDashboard.putNumber("Angle", RobotMap.imu.getRoll());
+    
+    panel.start();
   }
 
   /**
@@ -72,7 +83,8 @@ public class Robot extends TimedRobot {
 
   @Override
   public void disabledPeriodic() {
-    Scheduler.getInstance().run();    
+    Scheduler.getInstance().run(); 
+    panel.end();  
   }
 
   /**
@@ -89,14 +101,9 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
     m_autonomousCommand = m_chooser.getSelected();
-    // turn = new TurnToAngle(RobotMap.gyro.getAngle() + 90);
-    /*
-     * String autoSelected = SmartDashboard.getString("Auto Selector",
-     * "Default"); switch(autoSelected) { case "My Auto": autonomousCommand
-     * = new MyAutoCommand(); break; case "Default Auto": default:
-     * autonomousCommand = new ExampleCommand(); break; }
-     */
 
+    turn = new TurnToAngle(RobotMap.gyro.getAngle() + 180);
+    
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {
       m_autonomousCommand.start();
@@ -110,7 +117,7 @@ public class Robot extends TimedRobot {
   public void autonomousPeriodic() {
     Scheduler.getInstance().run();
     
-    // turn.start();
+    turn.start();
   }
 
   @Override

@@ -1,5 +1,5 @@
 /*----------------------------------------------------------------------------*/
-/* Copyright (c) 2019 FIRST. All Rights Reserved.                             */
+/* Copyright (c) 2018 FIRST. All Rights Reserved.                             */
 /* Open Source Software - may be modified and shared by FRC teams. The code   */
 /* must be accompanied by the FIRST BSD license file in the root directory of */
 /* the project.                                                               */
@@ -11,35 +11,28 @@ import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.OI;
 import frc.robot.Robot;
 
-/**
- * An example command.  You can replace me with your own command.
- */
-public class Drive extends Command {
-  // TurnToAngle turn = new TurnToAngle(RobotMap.gyro.getAngle() + 90);
-  public Drive() {
+public class ControlPanel extends Command {
+   
+  public ControlPanel() {
     // Use requires() here to declare subsystem dependencies
-    requires(Robot.m_subsystem);
+    // eg. requires(chassis);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
+    boolean powerButton = OI.leftJoy.getRawButtonPressed(3);
 
-    double leftX = OI.leftJoy.getRawAxis(0);
-    double leftY = OI.leftJoy.getRawAxis(1);
-
-    Robot.m_subsystem.coast(-leftX, leftY);
-    
-
-    
+    if(powerButton) 
+    {
+      Robot.canSystem.spinControlPanel();
+    }
   }
-
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
@@ -49,9 +42,8 @@ public class Drive extends Command {
 
   // Called once after isFinished returns true
   @Override
-  protected void end() {
-    Robot.m_subsystem.rocStop();
-    // turn.close();
+  public void end() {
+    Robot.canSystem.stopControlPanel();
   }
 
   // Called when another command which requires one or more of the same

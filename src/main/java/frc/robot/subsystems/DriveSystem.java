@@ -16,10 +16,10 @@ import frc.robot.commands.Drive;
  */
 public class DriveSystem extends Subsystem {
 
-  private Spark backRight = new Spark(2);
-  private Spark frontRight = new Spark(1);
-  private Spark frontLeft = new Spark(0);
-  private Spark backLeft = new Spark(3);
+  private Spark left0 = new Spark(0);
+  private Spark left1 = new Spark(1);
+  private Spark right0 = new Spark(2);
+  private Spark right1 = new Spark(3);
   
   @Override
   public void initDefaultCommand() {
@@ -38,26 +38,26 @@ public class DriveSystem extends Subsystem {
 		// frontRight.set(-pFR);
     // backRight.set(pBR);
     
-    frontLeft.set(y - x - r);
-    frontRight.set(y + x - r);
+    // frontLeft.set(y - x - r);
+    // frontRight.set(y + x - r);
 
-    backLeft.set(-y - x - r);
-    backRight.set(-y + x - r);
+    // backLeft.set(y - x - r);
+    // backRight.set(y + x - r);
 }
 
 public void coast(double leftPow, double rightPow) {
-  frontLeft.set(-rightPow + leftPow);
-  backLeft.set(-rightPow + leftPow);
-  frontRight.set(rightPow + leftPow);
-  backRight.set(rightPow + leftPow);
+  left0.set(-rightPow + leftPow);
+  left1.set(-rightPow + leftPow);
+  right0.set(rightPow + leftPow);
+  right1.set(rightPow + leftPow);
   // centerMotor.set(centerPow);
 }
 
 public void coastArcade(double xPow, double yPow) {
-  frontLeft.set(-yPow + -xPow);
-  backLeft.set(-yPow + xPow);
-  frontRight.set(yPow + -xPow);
-  backRight.set(yPow + xPow);
+  left0.set(-yPow + -xPow);
+  left1.set(-yPow + -xPow);
+  right0.set(yPow + xPow);
+  right1.set(yPow + xPow);
 }
 
 public void mecStop() {

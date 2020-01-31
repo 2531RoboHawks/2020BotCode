@@ -31,12 +31,29 @@ public class TurnToAngle extends Command {
   public void execute() {
     double angle = RobotMap.gyro.getAngle();
     
-    if(angle - deg > 5 || angle - deg < -5) {
+    if(angle - deg > 0.5 || angle - deg < -0.5) {
     if( angle >= deg) {
+
+      if(Math.abs(angle - deg)/360 < 0.1) {
+
+      Robot.m_subsystem.coast(-(Math.abs(angle - deg)/360)-0.3, 0);
+      
+    } else {
       Robot.m_subsystem.coast(-0.75, 0);
     }
+
+    }
+
+    
     if(RobotMap.gyro.getAngle() <= deg) {
-      Robot.m_subsystem.coast(0.75, 0);
+
+      if(Math.abs(angle - deg)/360 < 0.1) {
+
+        Robot.m_subsystem.coast((Math.abs(angle - deg)/360)+0.3, 0);
+        
+      } else {
+        Robot.m_subsystem.coast(0.75, 0);
+      }
     }
   }
 
