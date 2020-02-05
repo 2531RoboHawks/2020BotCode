@@ -71,7 +71,6 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("pain2", RobotMap.gyro.getAngle());
     SmartDashboard.putNumber("BarometricPressure", RobotMap.imu.getBarometricPressure());
     SmartDashboard.putNumber("Temperature", (RobotMap.imu.getTemperature()*1.8)+32);
-    SmartDashboard.putNumber("Angle", RobotMap.imu.getRoll());
 
     // SmartDashboard.putString("color", );
     panel.start();
