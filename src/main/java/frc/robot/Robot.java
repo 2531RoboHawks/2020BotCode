@@ -7,6 +7,9 @@
 
 package frc.robot;
 
+import com.revrobotics.ColorSensorV3;
+
+import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -35,6 +38,7 @@ public class Robot extends TimedRobot {
 
   Command m_autonomousCommand;
   SendableChooser<Command> m_chooser = new SendableChooser<>();
+
 
   /**
    * This function is run when the robot is first started up and should be
@@ -68,7 +72,8 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("BarometricPressure", RobotMap.imu.getBarometricPressure());
     SmartDashboard.putNumber("Temperature", (RobotMap.imu.getTemperature()*1.8)+32);
     SmartDashboard.putNumber("Angle", RobotMap.imu.getRoll());
-    
+
+    // SmartDashboard.putString("color", );
     panel.start();
   }
 
@@ -139,7 +144,6 @@ public class Robot extends TimedRobot {
   public void teleopPeriodic() {
     Scheduler.getInstance().run();
     
-
   }
 
   /**
