@@ -31,8 +31,8 @@ public class Drive extends Command {
   @Override
   protected void execute() {
 
-    double leftX = OI.leftJoy.getRawAxis(0);
-    double leftY = OI.leftJoy.getRawAxis(1);
+    double leftX = OI.leftJoy.getRawAxis(1);
+    double leftY = OI.rightJoy.getRawAxis(1);
 
     Robot.m_subsystem.coast(leftX, leftY);
     

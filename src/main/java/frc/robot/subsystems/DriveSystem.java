@@ -26,31 +26,11 @@ public class DriveSystem extends Subsystem {
     setDefaultCommand(new Drive());
   }
 
-  public void mecanumDrive(double x, double y, double r) {
-
-		// double a = Math.atan2(y, x);
-		// double pFL = (Math.abs(Math.sin(a)) * y) - (Math.abs(Math.cos(a)) * x) + r;
-		// double pFR = (Math.abs(Math.sin(a)) * y) - (Math.abs(Math.cos(a)) * x) + r;
-		// double pBL = (Math.abs(Math.sin(a)) * y) + (Math.abs(Math.cos(a)) * x) + r;
-		// double pBR = (Math.abs(Math.sin(a)) * y) + (Math.abs(Math.cos(a)) * x) + r;
-		// frontLeft.set(pFL);
-		// backLeft.set(-pBL);
-		// frontRight.set(-pFR);
-    // backRight.set(pBR);
-    
-    // frontLeft.set(y - x - r);
-    // frontRight.set(y + x - r);
-
-    // backLeft.set(y - x - r);
-    // backRight.set(y + x - r);
-}
-
 public void coast(double leftPow, double rightPow) {
-  left0.set(-rightPow + leftPow);
-  left1.set(-rightPow + leftPow);
-  right0.set(rightPow + leftPow);
-  right1.set(rightPow + leftPow);
-  // centerMotor.set(centerPow);
+  left0.set(-leftPow);
+  left1.set(-leftPow);
+  right0.set(rightPow);
+  right1.set(rightPow);
 }
 
 public void coastArcade(double xPow, double yPow) {
@@ -58,10 +38,6 @@ public void coastArcade(double xPow, double yPow) {
   left1.set(-yPow + -xPow);
   right0.set(yPow + xPow);
   right1.set(yPow + xPow);
-}
-
-public void mecStop() {
-  mecanumDrive(0.0D, 0.0D, 0.0D);
 }
 
 public void rocStop() {

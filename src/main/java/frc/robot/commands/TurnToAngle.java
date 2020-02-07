@@ -13,6 +13,7 @@ import frc.robot.RobotMap;
 
 public class TurnToAngle extends Command {
   double deg;
+  private boolean end = false;
   /**
    * Creates a new TurnToAngle.
    */
@@ -55,6 +56,8 @@ public class TurnToAngle extends Command {
         Robot.m_subsystem.coast(0.75, 0);
       }
     }
+  } else {
+    end = true;
   }
 
   }
@@ -62,12 +65,17 @@ public class TurnToAngle extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end() {
-
+    end = true;
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return end;
+  }
+
+  @Override
+  public void interrupted() {
+    end();
   }
 }

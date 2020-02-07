@@ -10,32 +10,25 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
-public class TimeDrive extends Command {
-  private double time;
-  private double startTime;
-  private boolean end = false;
-  public TimeDrive(double tTime) {
-    requires(Robot.m_subsystem);
-    this.time = tTime*1000;
+public class ServoCommand extends Command {
+  boolean end = false;
+  int deg;
+  public ServoCommand(int dDeg) {
+    deg = dDeg;
+    // Use requires() here to declare subsystem dependencies
+    // eg. requires(chassis);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    startTime = System.currentTimeMillis();
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    double currentTime = System.currentTimeMillis();
-
-    if(currentTime - startTime < time) {
-        Robot.m_subsystem.coastArcade(0, -0.3);
-    } else {
-      Robot.m_subsystem.rocStop();
-      end = true;
-    }
+    Robot.servoSystem.toDegree(deg);
+    end = true;
     
   }
 
@@ -47,14 +40,12 @@ public class TimeDrive extends Command {
 
   // Called once after isFinished returns true
   @Override
-  public void end() {
-    Robot.m_subsystem.rocStop();
+  protected void end() {
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    end();
   }
 }
