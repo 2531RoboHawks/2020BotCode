@@ -15,7 +15,7 @@ public class TimeDrive extends Command {
   private double startTime;
   private boolean end = false;
   public TimeDrive(double tTime) {
-    requires(Robot.m_subsystem);
+    requires(Robot.driveSystem);
     this.time = tTime*1000;
   }
 
@@ -31,9 +31,9 @@ public class TimeDrive extends Command {
     double currentTime = System.currentTimeMillis();
 
     if(currentTime - startTime < time) {
-        Robot.m_subsystem.coastArcade(0, -0.3);
+        Robot.driveSystem.tankDrive(0, -0.3);
     } else {
-      Robot.m_subsystem.rocStop();
+      Robot.driveSystem.stop();
       end = true;
     }
     
@@ -48,7 +48,7 @@ public class TimeDrive extends Command {
   // Called once after isFinished returns true
   @Override
   public void end() {
-    Robot.m_subsystem.rocStop();
+    Robot.driveSystem.stop();
   }
 
   // Called when another command which requires one or more of the same

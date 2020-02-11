@@ -27,67 +27,62 @@ public class ControlPanel extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    boolean powerButton = OI.leftJoy.getRawButton(3);
 
-    if(powerButton) 
-    {
-      Robot.canSystem.spinControlPanel();
+    if (OI.leftJoy.getRawAxis(2) >= 0.5) {
+
+      double red = (Math.round(RobotMap.m_colorSensor.getColor().red * 10.0)) / 10.0;
+      double green = (Math.round(RobotMap.m_colorSensor.getColor().green * 10.0)) / 10.0;
+      double blue = (Math.round(RobotMap.m_colorSensor.getColor().blue * 10.0)) / 10.0;
+
+      String gameData;
+      gameData = DriverStation.getInstance().getGameSpecificMessage();
+      if (gameData.length() > 0) {
+        switch (gameData.charAt(0)) {
+        case 'R':
+          // Blue
+          if (red == 0.2 && green == 0.4 && blue == 0.4) {
+            Robot.canSystem.stopControlPanel();
+          } else {
+            Robot.canSystem.spinControlPanel(0.2);
+          }
+
+          break;
+        case 'Y':
+          // Green
+          if (red == 0.2 && green == 0.6 && blue == 0.2) {
+            Robot.canSystem.stopControlPanel();
+          } else {
+            Robot.canSystem.spinControlPanel(0.2);
+          }
+
+          break;
+        case 'B':
+          // Red
+          if (red == 0.5 && green == 0.4 && blue == 0.1) {
+            Robot.canSystem.stopControlPanel();
+          } else {
+            Robot.canSystem.spinControlPanel(0.2);
+          }
+
+          break;
+        case 'G':
+          // Yellow
+          if (red == 0.3 && green == 0.6 && blue == 0.1) {
+            Robot.canSystem.stopControlPanel();
+          } else {
+            Robot.canSystem.spinControlPanel(0.2);
+          }
+
+          break;
+        default:
+          System.out.println("Invalid");
+          break;
+        }
+      }
+
     } else {
       Robot.canSystem.stopControlPanel();
     }
-
-    double red = (Math.round(RobotMap.m_colorSensor.getColor().red * 10.0))/10.0;
-    double green = (Math.round(RobotMap.m_colorSensor.getColor().green * 10.0))/10.0;
-    double blue = (Math.round(RobotMap.m_colorSensor.getColor().blue * 10.0))/10.0;
-    
-    String gameData;
-gameData = DriverStation.getInstance().getGameSpecificMessage();
-if(gameData.length() > 0)
-{
-  switch (gameData.charAt(0))
-  {
-    case 'R' :
-      //Blue
-      if(red == 0.2 && green == 0.4 && blue == 0.4) {
-        Robot.canSystem.stopControlPanel();
-      } else {
-        Robot.canSystem.spinControlPanel();
-      }
-
-      break;
-    case 'Y' :
-      //Green
-      if(red == 0.2 && green == 0.6 && blue == 0.2) {
-        Robot.canSystem.stopControlPanel();
-      } else {
-        Robot.canSystem.spinControlPanel();
-      }
-
-      break;
-    case 'B' :
-      //Red
-      if(red == 0.5 && green == 0.4 && blue == 0.1) {
-        Robot.canSystem.stopControlPanel();
-      } else {
-        Robot.canSystem.spinControlPanel();
-      }
-
-      break;
-    case 'G' :
-      //Yellow
-      if(red == 0.3 && green == 0.6 && blue == 0.1) {
-        Robot.canSystem.stopControlPanel();
-      } else {
-        Robot.canSystem.spinControlPanel();
-      }
-
-      break;
-    default :
-      System.out.println("Invalid");
-      break;
-  }
-}
-
     // System.out.println(red + " " + green + " " + blue);
   }
 

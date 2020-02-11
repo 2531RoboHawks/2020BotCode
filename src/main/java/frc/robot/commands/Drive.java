@@ -15,10 +15,13 @@ import frc.robot.Robot;
  * An example command.  You can replace me with your own command.
  */
 public class Drive extends Command {
+  boolean lastgear = false;
   // TurnToAngle turn = new TurnToAngle(RobotMap.gyro.getAngle() + 90);
   public Drive() {
     // Use requires() here to declare subsystem dependencies
-    requires(Robot.m_subsystem);
+    requires(Robot.driveSystem);
+    Robot.driveSystem.shiftGear(false);
+    lastgear = Robot.driveSystem.isHighGear();
   }
 
   // Called just before this Command runs the first time
@@ -31,10 +34,25 @@ public class Drive extends Command {
   @Override
   protected void execute() {
 
+    if (OI.rightJoy.getRawButton(1)) {
+      Robot.driveSystem.shiftGear(true);
+      if (lastgear != true) {
+        System.out.println("high gear");
+        lastgear = true;
+      }
+    } else {
+      Robot.driveSystem.shiftGear(false);
+      if (lastgear != false) {
+        System.out.println("low gear");
+        lastgear = false;
+      }
+    }
+
+
     double leftX = OI.leftJoy.getRawAxis(1);
     double leftY = OI.rightJoy.getRawAxis(1);
 
-    Robot.m_subsystem.coast(leftX, leftY);
+    Robot.driveSystem.tankDrive(leftX, leftY);
     
 
     
@@ -50,7 +68,7 @@ public class Drive extends Command {
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    Robot.m_subsystem.rocStop();
+    Robot.driveSystem.stop();
     // turn.close();
   }
 

@@ -14,10 +14,11 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.ControlPanel;
 import frc.robot.commands.Drive;
-import frc.robot.commands.Square;
-import frc.robot.subsystems.CANSystem;
+import frc.robot.commands.ShootCommand;
+import frc.robot.subsystems.ControlPanelSystem;
 import frc.robot.subsystems.DriveSystem;
 import frc.robot.subsystems.ServoSystem;
+import frc.robot.subsystems.ShootSystem;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -29,14 +30,15 @@ import frc.robot.subsystems.ServoSystem;
 public class Robot extends TimedRobot {
 
   //Init Subsystems for use in other classes
-  public static DriveSystem m_subsystem = new DriveSystem();
-  public static CANSystem canSystem = new CANSystem();
+  public static DriveSystem driveSystem = new DriveSystem();
+  public static ControlPanelSystem canSystem = new ControlPanelSystem();
   public static ServoSystem servoSystem = new ServoSystem();
+  public static ShootSystem shootSystem = new ShootSystem();
 
   public static OI m_oi;
 
   public ControlPanel panel = new ControlPanel();
-  public Square s = new Square();
+  public ShootCommand shootCommand = new ShootCommand();
 
   Command m_autonomousCommand;
 
@@ -90,7 +92,7 @@ public class Robot extends TimedRobot {
     Scheduler.getInstance().run();
 
     panel.close();
-    s.close();
+    shootCommand.close();
     }
 
   /**
@@ -108,7 +110,6 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
     m_autonomousCommand = m_chooser.getSelected();
-    s.start();
     if (m_autonomousCommand != null) {
       m_autonomousCommand.start();
     }
@@ -132,7 +133,7 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
-
+    shootCommand.start();
   }
 
   /**

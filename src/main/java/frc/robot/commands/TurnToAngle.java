@@ -37,10 +37,10 @@ public class TurnToAngle extends Command {
 
       if(Math.abs(angle - deg)/360 < 0.1) {
 
-      Robot.m_subsystem.coast(-(Math.abs(angle - deg)/360)-0.3, 0);
+      Robot.driveSystem.tankDrive(-(Math.abs(angle - deg)/360)-0.3, 0);
       
     } else {
-      Robot.m_subsystem.coast(-0.75, 0);
+      Robot.driveSystem.tankDrive(-0.75, 0);
     }
 
     }
@@ -50,10 +50,10 @@ public class TurnToAngle extends Command {
 
       if(Math.abs(angle - deg)/360 < 0.1) {
 
-        Robot.m_subsystem.coast((Math.abs(angle - deg)/360)+0.3, 0);
+        Robot.driveSystem.tankDrive((Math.abs(angle - deg)/360)+0.3, 0);
         
       } else {
-        Robot.m_subsystem.coast(0.75, 0);
+        Robot.driveSystem.tankDrive(0.75, 0);
       }
     }
   } else {

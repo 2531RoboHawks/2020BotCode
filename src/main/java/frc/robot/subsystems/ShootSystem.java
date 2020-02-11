@@ -7,25 +7,36 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
  * Add your docs here.
  */
-public class ServoSystem extends Subsystem {
-  edu.wpi.first.wpilibj.Servo plateServo0 = new edu.wpi.first.wpilibj.Servo(0);
-  edu.wpi.first.wpilibj.Servo plateServo1 = new edu.wpi.first.wpilibj.Servo(1);
+public class ShootSystem extends Subsystem {
+  TalonSRX shooter = new TalonSRX(10);
+  TalonSRX bottomIntake = new TalonSRX(12);
+
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
 
   @Override
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.
-    // setDefaultCommand(new ServoCommand());
+    // setDefaultCommand(new MySpecialCommand());
   }
-  
-  public void toDegree(int deg0, int deg1) {
-    plateServo0.setAngle(deg0);
-    plateServo1.setAngle(deg1);
+
+  public void shoot() 
+  {
+    shooter.set(ControlMode.PercentOutput, 1);
+    bottomIntake.set(ControlMode.PercentOutput, -1);
+  }
+
+  public void stopShoot() 
+  {
+    shooter.set(ControlMode.PercentOutput, 0);
+    bottomIntake.set(ControlMode.PercentOutput, 0);
   }
 }

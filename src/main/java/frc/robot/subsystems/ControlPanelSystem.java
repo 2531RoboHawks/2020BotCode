@@ -12,10 +12,11 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 
-public class CANSystem extends Subsystem {
-  TalonSRX panelWheel = new TalonSRX(1);
+public class ControlPanelSystem extends Subsystem {
+  TalonSRX panelLifter = new TalonSRX(1);
+  TalonSRX panelWheel = new TalonSRX(2);
 
-  public CANSystem() {
+  public ControlPanelSystem() {
 
   }
 
@@ -24,16 +25,25 @@ public class CANSystem extends Subsystem {
 
   }
   
-  public void spinControlPanel() 
+  public void spinControlPanel(double pow) 
   {
 
-    panelWheel.set(ControlMode.PercentOutput, 0.5);
+    panelWheel.set(ControlMode.PercentOutput, pow);
   }
 
   public void stopControlPanel() 
   {
     panelWheel.set(ControlMode.PercentOutput, 0);
-    // panelWheel.
   }
+
+  // public void activateLifter() 
+  // {
+  //   panelLifter.set(ControlMode.PercentOutput, 0.5);
+  // }
+
+  // public void deactivateLifter() 
+  // {
+  //   panelLifter.set(ControlMode.PercentOutput, 0.5);
+  // }
 
 }

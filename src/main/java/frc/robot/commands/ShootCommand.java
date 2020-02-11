@@ -8,15 +8,15 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
+import frc.robot.OI;
 import frc.robot.Robot;
 
-public class ServoCommand extends Command {
-  boolean end = false;
-  int deg;
-  public ServoCommand(int dDeg) {
-    deg = dDeg;
+public class ShootCommand extends Command {
+  private double startTime;
+
+  public ShootCommand() {
     // Use requires() here to declare subsystem dependencies
-    // eg. requires(chassis);
+    requires(Robot.shootSystem);
   }
 
   // Called just before this Command runs the first time
@@ -27,15 +27,30 @@ public class ServoCommand extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.servoSystem.toDegree(deg);
-    end = true;
-    
+    double currentTime = System.currentTimeMillis();
+
+    if (OI.leftJoy.getTrigger()) {
+      Robot.servoSystem.toDegree(180, 0);
+
+      if (currentTime - startTime > 1000) {
+        Robot.shootSystem.shoot();
+      } else {
+        Robot.shootSystem.stopShoot();
+      }
+
+      
+    } else {
+      Robot.servoSystem.toDegree(0, 180);
+      startTime = System.currentTimeMillis();
+      Robot.shootSystem.stopShoot();
+    }
+
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return end;
+    return false;
   }
 
   // Called once after isFinished returns true
