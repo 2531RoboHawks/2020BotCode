@@ -15,9 +15,11 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 /**
  * Add your docs here.
  */
-public class ShootSystem extends Subsystem {
+public class ShootIntakeSystem extends Subsystem {
+  TalonSRX sweep = new TalonSRX(9);
   TalonSRX shooter = new TalonSRX(10);
   TalonSRX bottomIntake = new TalonSRX(12);
+  TalonSRX topIntake = new TalonSRX(13);
 
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
@@ -28,15 +30,22 @@ public class ShootSystem extends Subsystem {
     // setDefaultCommand(new MySpecialCommand());
   }
 
-  public void shoot() 
+  public void shoot(double pow) 
   {
-    shooter.set(ControlMode.PercentOutput, 1);
-    bottomIntake.set(ControlMode.PercentOutput, -1);
+    shooter.set(ControlMode.PercentOutput, pow);
   }
 
   public void stopShoot() 
   {
-    shooter.set(ControlMode.PercentOutput, 0);
-    bottomIntake.set(ControlMode.PercentOutput, 0);
+    shoot(0);
+  }
+
+  public void intake(double pow0, double pow1) {
+    bottomIntake.set(ControlMode.PercentOutput, pow0);
+    topIntake.set(ControlMode.PercentOutput, pow1);
+  }
+
+  public void stopIntake() {
+    intake(0, 0);
   }
 }

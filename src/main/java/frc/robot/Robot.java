@@ -18,7 +18,7 @@ import frc.robot.commands.ShootCommand;
 import frc.robot.subsystems.ControlPanelSystem;
 import frc.robot.subsystems.DriveSystem;
 import frc.robot.subsystems.ServoSystem;
-import frc.robot.subsystems.ShootSystem;
+import frc.robot.subsystems.ShootIntakeSystem;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -29,11 +29,11 @@ import frc.robot.subsystems.ShootSystem;
  */
 public class Robot extends TimedRobot {
 
-  //Init Subsystems for use in other classes
+  // Init Subsystems for use in other classes
   public static DriveSystem driveSystem = new DriveSystem();
   public static ControlPanelSystem canSystem = new ControlPanelSystem();
   public static ServoSystem servoSystem = new ServoSystem();
-  public static ShootSystem shootSystem = new ShootSystem();
+  public static ShootIntakeSystem shootSystem = new ShootIntakeSystem();
 
   public static OI m_oi;
 
@@ -55,7 +55,7 @@ public class Robot extends TimedRobot {
 
     SmartDashboard.putData("Auto mode", m_chooser);
     RobotMap.gyro.calibrate();
-
+    startTime = System.currentTimeMillis();
   }
 
   /**
@@ -85,6 +85,7 @@ public class Robot extends TimedRobot {
   @Override
   public void disabledInit() {
     RobotMap.gyro.calibrate();
+    startTime = System.currentTimeMillis();
   }
 
   @Override
@@ -93,7 +94,7 @@ public class Robot extends TimedRobot {
 
     panel.close();
     shootCommand.close();
-    }
+  }
 
   /**
    * This autonomous (along with the chooser code above) shows how to select
@@ -124,6 +125,8 @@ public class Robot extends TimedRobot {
 
   }
 
+  private double startTime;
+
   @Override
   public void teleopInit() {
     // This makes sure that the autonomous stops running when
@@ -134,6 +137,8 @@ public class Robot extends TimedRobot {
       m_autonomousCommand.cancel();
     }
     shootCommand.start();
+    
+
   }
 
   /**
@@ -142,6 +147,15 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     Scheduler.getInstance().run();
+    double currentTime = System.currentTimeMillis();
+
+    if (currentTime - startTime >= 5000) {
+      shootSystem.shoot(1);
+      if (currentTime - startTime >= 7000) {
+        shootSystem.stopShoot();
+        startTime = System.currentTimeMillis();
+      }
+    }
 
   }
 
