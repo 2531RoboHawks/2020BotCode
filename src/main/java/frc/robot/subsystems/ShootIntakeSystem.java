@@ -21,6 +21,8 @@ public class ShootIntakeSystem extends Subsystem {
   TalonSRX bottomIntake = new TalonSRX(12);
   TalonSRX topIntake = new TalonSRX(13);
 
+
+  
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
 
@@ -30,19 +32,25 @@ public class ShootIntakeSystem extends Subsystem {
     // setDefaultCommand(new MySpecialCommand());
   }
 
-  public void shoot(double pow) 
-  {
+  public void shoot(double pow) {
     shooter.set(ControlMode.PercentOutput, pow);
   }
 
-  public void stopShoot() 
-  {
+  public void stopShoot() {
     shoot(0);
   }
 
   public void intake(double pow0, double pow1) {
     bottomIntake.set(ControlMode.PercentOutput, pow0);
     topIntake.set(ControlMode.PercentOutput, pow1);
+  }
+
+  public void activateSweeper(boolean run) {
+    if(run) {
+      sweep.set(ControlMode.PercentOutput, 0.1);
+    } else {
+      sweep.set(ControlMode.PercentOutput, 0);
+    }
   }
 
   public void stopIntake() {

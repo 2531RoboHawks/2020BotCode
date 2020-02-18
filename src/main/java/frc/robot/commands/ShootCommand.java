@@ -29,7 +29,7 @@ public class ShootCommand extends Command {
   protected void execute() {
     double currentTime = System.currentTimeMillis();
 
-    if (OI.leftJoy.getTrigger()) {
+    if (OI.leftJoy.getRawButton(3)) {
       Robot.servoSystem.toDegree(180, 0);
 
       if (currentTime - startTime > 1000) {
@@ -37,8 +37,6 @@ public class ShootCommand extends Command {
       } else {
         Robot.shootSystem.stopShoot();
       }
-
-      
     } else {
       Robot.servoSystem.toDegree(0, 180);
       startTime = System.currentTimeMillis();

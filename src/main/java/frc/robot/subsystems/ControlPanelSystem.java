@@ -13,8 +13,7 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class ControlPanelSystem extends Subsystem {
-  TalonSRX panelLifter = new TalonSRX(1);
-  TalonSRX panelWheel = new TalonSRX(2);
+  TalonSRX panelWheel = new TalonSRX(1);
 
   public ControlPanelSystem() {
 
@@ -43,7 +42,7 @@ public class ControlPanelSystem extends Subsystem {
 
   // public void deactivateLifter() 
   // {
-  //   panelLifter.set(ControlMode.PercentOutput, 0.5);
+  //   panelLifter.set(ControlMode.PercentOutput, 0);
   // }
 
 }

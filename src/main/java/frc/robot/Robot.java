@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.ControlPanel;
 import frc.robot.commands.Drive;
+import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.ShootCommand;
 import frc.robot.subsystems.ControlPanelSystem;
 import frc.robot.subsystems.DriveSystem;
@@ -35,10 +36,12 @@ public class Robot extends TimedRobot {
   public static ServoSystem servoSystem = new ServoSystem();
   public static ShootIntakeSystem shootSystem = new ShootIntakeSystem();
 
+
   public static OI m_oi;
 
   public ControlPanel panel = new ControlPanel();
   public ShootCommand shootCommand = new ShootCommand();
+  public IntakeCommand intakeCommand = new  IntakeCommand();
 
   Command m_autonomousCommand;
 
@@ -55,7 +58,7 @@ public class Robot extends TimedRobot {
 
     SmartDashboard.putData("Auto mode", m_chooser);
     RobotMap.gyro.calibrate();
-    startTime = System.currentTimeMillis();
+    // startTime = System.currentTimeMillis();
   }
 
   /**
@@ -85,7 +88,7 @@ public class Robot extends TimedRobot {
   @Override
   public void disabledInit() {
     RobotMap.gyro.calibrate();
-    startTime = System.currentTimeMillis();
+    // startTime = System.currentTimeMillis();
   }
 
   @Override
@@ -94,6 +97,7 @@ public class Robot extends TimedRobot {
 
     panel.close();
     shootCommand.close();
+    intakeCommand.close();
   }
 
   /**
@@ -125,7 +129,7 @@ public class Robot extends TimedRobot {
 
   }
 
-  private double startTime;
+  // private double startTime;
 
   @Override
   public void teleopInit() {
@@ -136,7 +140,7 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
-    shootCommand.start();
+    
     
 
   }
@@ -147,15 +151,17 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     Scheduler.getInstance().run();
-    double currentTime = System.currentTimeMillis();
-
-    if (currentTime - startTime >= 5000) {
-      shootSystem.shoot(1);
-      if (currentTime - startTime >= 7000) {
-        shootSystem.stopShoot();
-        startTime = System.currentTimeMillis();
-      }
-    }
+    // double currentTime = System.currentTimeMillis();
+    // panel.start();
+    shootCommand.start();
+    // intakeCommand.start();
+    // if (currentTime - startTime >= 5000) {
+    //   shootSystem.shoot(1);
+    //   if (currentTime - startTime >= 7000) {
+    //     shootSystem.stopShoot();
+    //     startTime = System.currentTimeMillis();
+    //   }
+    // }
     
   }
 
