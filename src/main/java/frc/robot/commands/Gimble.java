@@ -8,15 +8,14 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
-import frc.robot.OI;
+// import frc.robot.OI;
 import frc.robot.Robot;
 
-public class ShootCommand extends Command {
-  private double startTime;
-
-  public ShootCommand() {
+public class Gimble extends Command {
+  public Gimble() {
     // Use requires() here to declare subsystem dependencies
-    requires(Robot.shootSystem);
+    requires(Robot.servoSystem);
+    
   }
 
   // Called just before this Command runs the first time
@@ -24,35 +23,20 @@ public class ShootCommand extends Command {
   protected void initialize() {
   }
 
+  
   // Called repeatedly when this Command is scheduled to run
-  boolean press = false;
   @Override
   protected void execute() {
-    double currentTime = System.currentTimeMillis();
 
-    if (OI.leftJoy.getRawButton(3)) {
+  
+    // boolean rightStickLeftButton = OI.rightJoy.getRawButtonPressed(4);
+    // boolean rightStickRightButton = OI.rightJoy.getRawButtonPressed(5);
+    // boolean rightStickTopButton = OI.rightJoy.getRawButtonPressed(6);
+    // boolean rightStickBottomButton = OI.rightJoy.getRawButtonPressed(7);
 
-      if (currentTime - startTime > 1000) {
-        Robot.shootSystem.shoot(1);
-      } else {
-        Robot.shootSystem.stopShoot();
-      }
-    } else {
-      startTime = System.currentTimeMillis();
-      Robot.shootSystem.stopShoot();
-    }
-    
 
-    if(OI.leftJoy.getRawButtonPressed(4)) {
-      press = !press;
-      // System.out.println(OI.leftJoy.getRawButtonPressed(4) + "");
-    }
+    // Robot.servoSystem.toDegree(leftStickLeftButton, leftStickRightButton);
 
-    if(press) {
-      Robot.servoSystem.toDegree(0, 180);
-    } else {
-      Robot.servoSystem.toDegree(180, 0);
-    }
 
   }
 

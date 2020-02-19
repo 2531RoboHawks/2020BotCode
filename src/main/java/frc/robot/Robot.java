@@ -154,7 +154,7 @@ public class Robot extends TimedRobot {
     // double currentTime = System.currentTimeMillis();
     // panel.start();
     shootCommand.start();
-    // intakeCommand.start();
+    intakeCommand.start();
     // if (currentTime - startTime >= 5000) {
     //   shootSystem.shoot(1);
     //   if (currentTime - startTime >= 7000) {

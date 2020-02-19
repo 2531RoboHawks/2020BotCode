@@ -31,7 +31,7 @@ public class IntakeCommand extends Command {
     boolean intakeJoy = OI.leftJoy.getRawButton(2);
 
     if(intakeJoy) {
-      Robot.shootSystem.intake(1, 0);
+      Robot.shootSystem.intake(0.5, 0.5);
     } else {
       Robot.shootSystem.intake(0, 0);
     }
