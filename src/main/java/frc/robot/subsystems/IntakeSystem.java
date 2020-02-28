@@ -7,27 +7,39 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
  * Add your docs here.
  */
-public class ServoSystem extends Subsystem {
-  edu.wpi.first.wpilibj.Servo plateServo0 = new edu.wpi.first.wpilibj.Servo(0);
-  edu.wpi.first.wpilibj.Servo plateServo1 = new edu.wpi.first.wpilibj.Servo(2);
-  // Put methods for controlling this subsystem
-  // here. Call these from Commands.
+public class IntakeSystem extends Subsystem {
+  TalonSRX sweep = new TalonSRX(9);
+  TalonSRX bottomIntake = new TalonSRX(12);
+  TalonSRX topIntake = new TalonSRX(13);
 
   @Override
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.
-    // setDefaultCommand(new ServoCommand());
+    // setDefaultCommand(new MySpecialCommand());
   }
-  
-  public void toDegree(int deg0, int deg1) {
-    plateServo0.setAngle(deg0);
-    plateServo1.setAngle(deg1);
 
-    System.out.println(plateServo0.getAngle() + " " + plateServo1.getAngle());
+  public void intake(double pow0, double pow1) {
+    bottomIntake.set(ControlMode.PercentOutput, pow0);
+    topIntake.set(ControlMode.PercentOutput, pow1);
+  }
+
+  public void activateSweeper(boolean run) {
+    if(run) {
+      sweep.set(ControlMode.PercentOutput, 0.1);
+    } else {
+      sweep.set(ControlMode.PercentOutput, 0);
+    }
+  }
+
+  public void stopIntake() {
+    intake(0, 0);
   }
 }

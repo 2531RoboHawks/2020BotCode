@@ -40,20 +40,6 @@ public class ShootIntakeSystem extends Subsystem {
     shoot(0);
   }
 
-  public void intake(double pow0, double pow1) {
-    bottomIntake.set(ControlMode.PercentOutput, pow0);
-    topIntake.set(ControlMode.PercentOutput, pow1);
-  }
 
-  public void activateSweeper(boolean run) {
-    if(run) {
-      sweep.set(ControlMode.PercentOutput, 0.1);
-    } else {
-      sweep.set(ControlMode.PercentOutput, 0);
-    }
-  }
 
-  public void stopIntake() {
-    intake(0, 0);
-  }
 }

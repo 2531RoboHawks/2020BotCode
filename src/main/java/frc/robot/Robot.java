@@ -7,6 +7,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -14,10 +15,13 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.ControlPanel;
 import frc.robot.commands.Drive;
+import frc.robot.commands.Gimble;
 import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.ShootCommand;
+import frc.robot.commands.TurnDrive;
 import frc.robot.subsystems.ControlPanelSystem;
 import frc.robot.subsystems.DriveSystem;
+import frc.robot.subsystems.IntakeSystem;
 import frc.robot.subsystems.ServoSystem;
 import frc.robot.subsystems.ShootIntakeSystem;
 
@@ -35,13 +39,15 @@ public class Robot extends TimedRobot {
   public static ControlPanelSystem canSystem = new ControlPanelSystem();
   public static ServoSystem servoSystem = new ServoSystem();
   public static ShootIntakeSystem shootSystem = new ShootIntakeSystem();
-
+  public static IntakeSystem intakeSystem = new IntakeSystem();
 
   public static OI m_oi;
 
   public ControlPanel panel = new ControlPanel();
   public ShootCommand shootCommand = new ShootCommand();
   public IntakeCommand intakeCommand = new  IntakeCommand();
+  public Gimble gim = new Gimble();
+
 
   Command m_autonomousCommand;
 
@@ -56,6 +62,7 @@ public class Robot extends TimedRobot {
     m_oi = new OI();
     m_chooser.setDefaultOption("Default Auto", new Drive());
 
+    CameraServer.getInstance().startAutomaticCapture();
     SmartDashboard.putData("Auto mode", m_chooser);
     RobotMap.gyro.calibrate();
     // startTime = System.currentTimeMillis();
@@ -73,11 +80,19 @@ public class Robot extends TimedRobot {
   @Override
   public void robotPeriodic() {
 
-    SmartDashboard.putNumber("pain2", RobotMap.gyro.getAngle());
+    SmartDashboard.putNumber("pain2", Math.ceil(OI.leftJoy.getZ()*100));
 
-    // SmartDashboard.putString("color", );
+    SmartDashboard.putNumber("red", (Math.round(RobotMap.m_colorSensor.getColor().red * 100.0)) / 100.0);
+    SmartDashboard.putNumber("green", (Math.round(RobotMap.m_colorSensor.getColor().green * 100.0)) / 100.0);
+    SmartDashboard.putNumber("blue", (Math.round(RobotMap.m_colorSensor.getColor().blue * 100.0)) / 100.0);
+    SmartDashboard.putString("Red Should be", "red == 0.5, green == 0.4, blue == 0.1");
+    SmartDashboard.putString("Yellow Should be", "red == 0.3, green == 0.6, blue == 0.1");
+    SmartDashboard.putString("Green Should be", "red == 0.2, green == 0.6, blue == 0.2");
+    SmartDashboard.putString("Blue Should be", "red == 0.2, green == 0.4, blue == 0.4");
+
     panel.start();
-
+    shootCommand.start();
+    
   }
 
   /**
@@ -87,7 +102,8 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void disabledInit() {
-    RobotMap.gyro.calibrate();
+    // RobotMap.gyro.calibrate();
+    td.close();
     // startTime = System.currentTimeMillis();
   }
 
@@ -98,6 +114,7 @@ public class Robot extends TimedRobot {
     panel.close();
     shootCommand.close();
     intakeCommand.close();
+    gim.close();
   }
 
   /**
@@ -112,12 +129,15 @@ public class Robot extends TimedRobot {
    * chooser code above (like the commented example) or additional comparisons to
    * the switch structure below with additional strings & commands.
    */
+  TurnDrive td = new TurnDrive();
   @Override
   public void autonomousInit() {
     m_autonomousCommand = m_chooser.getSelected();
     if (m_autonomousCommand != null) {
       m_autonomousCommand.start();
     }
+    td.start();
+    
   }
 
   /**
@@ -126,7 +146,7 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousPeriodic() {
     Scheduler.getInstance().run();
-
+    
   }
 
   // private double startTime;
@@ -141,7 +161,6 @@ public class Robot extends TimedRobot {
       m_autonomousCommand.cancel();
     }
     
-    
 
   }
 
@@ -153,7 +172,7 @@ public class Robot extends TimedRobot {
     Scheduler.getInstance().run();
     // double currentTime = System.currentTimeMillis();
     // panel.start();
-    shootCommand.start();
+    gim.start();
     intakeCommand.start();
     // if (currentTime - startTime >= 5000) {
     //   shootSystem.shoot(1);

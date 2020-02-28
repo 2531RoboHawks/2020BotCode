@@ -9,40 +9,33 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.OI;
-// import frc.robot.OI;
 import frc.robot.Robot;
 
-public class Gimble extends Command {
-  public Gimble() {
-    // Use requires() here to declare subsystem dependencies
-    requires(Robot.servoSystem);
-    
+public class TimeShoot extends Command {
+  boolean press = false;
+  double time;
+  double currentTime = System.currentTimeMillis();
+
+  public TimeShoot(double time) {
+    this.time = time * 1000;
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
+    currentTime = System.currentTimeMillis();
   }
 
-  
-  boolean press = false;
-  boolean gone = false;
   // Called repeatedly when this Command is scheduled to run
+  boolean gone = false;
+  boolean finished = false;
+
   @Override
   protected void execute() {
-
-    if (OI.rightJoy.getRawButton(2) && !gone) {
-      press = !press;
-      gone = true;
-
-    } else if(!OI.rightJoy.getRawButton(2) && gone) {
-      gone = false;
-    }
-    
-    if(press) {
-    Robot.servoSystem.toDegree(180, 180);
+    if (Math.abs(System.currentTimeMillis() - currentTime) < time) {
+      Robot.shootSystem.shoot(0.8);
     } else {
-    Robot.servoSystem.toDegree(180, 0);
+      Robot.intakeSystem.intake(-0.5, 0);
     }
 
   }
@@ -50,17 +43,20 @@ public class Gimble extends Command {
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return false;
+    return finished;
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
+    Robot.shootSystem.stopShoot();
+    finished = true;
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
+    end();
   }
 }

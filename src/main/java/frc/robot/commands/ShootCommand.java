@@ -12,8 +12,7 @@ import frc.robot.OI;
 import frc.robot.Robot;
 
 public class ShootCommand extends Command {
-  private double startTime;
-
+  boolean press = false;
   public ShootCommand() {
     // Use requires() here to declare subsystem dependencies
     requires(Robot.shootSystem);
@@ -25,35 +24,19 @@ public class ShootCommand extends Command {
   }
 
   // Called repeatedly when this Command is scheduled to run
-  boolean press = false;
+  boolean gone = false;
   @Override
   protected void execute() {
-    double currentTime = System.currentTimeMillis();
-
-    if (OI.leftJoy.getRawButton(3)) {
-
-      if (currentTime - startTime > 1000) {
-        Robot.shootSystem.shoot(1);
+    
+    boolean intakeJoy = OI.leftJoy.getRawButton(3);
+    double zAxis = OI.leftJoy.getZ();
+    if (intakeJoy) {
+        Robot.shootSystem.shoot(Math.abs(zAxis));
       } else {
         Robot.shootSystem.stopShoot();
-      }
-    } else {
-      startTime = System.currentTimeMillis();
-      Robot.shootSystem.stopShoot();
     }
     
-
-    if(OI.leftJoy.getRawButtonPressed(4)) {
-      press = !press;
-      // System.out.println(OI.leftJoy.getRawButtonPressed(4) + "");
-    }
-
-    if(press) {
-      Robot.servoSystem.toDegree(0, 180);
-    } else {
-      Robot.servoSystem.toDegree(180, 0);
-    }
-
+    
   }
 
   // Make this return true when this Command no longer needs to run execute()

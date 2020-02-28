@@ -24,11 +24,25 @@ public class ControlPanel extends Command {
   protected void initialize() {
   }
 
+  boolean press = false;
+  boolean gone = false;
+
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
+    
+    
 
-    if (OI.leftJoy.getRawAxis(2) >= 0.5) {
+    if (OI.rightJoy.getRawButton(4) && !gone) {
+      press = !press;
+      gone = true;
+
+    } else if(!OI.rightJoy.getRawButton(4) && gone) {
+      gone = false;
+    }
+  
+
+    if (press) {
 
       double red = (Math.round(RobotMap.m_colorSensor.getColor().red * 10.0)) / 10.0;
       double green = (Math.round(RobotMap.m_colorSensor.getColor().green * 10.0)) / 10.0;

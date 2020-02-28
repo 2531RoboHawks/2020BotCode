@@ -8,15 +8,13 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
-import frc.robot.RobotMap;
 
-//Unused
 public class TurnDrive extends CommandGroup {
   
   
   public TurnDrive() {
-    addSequential(new TimeDrive(10));
-    addParallel(new TurnToAngle(RobotMap.gyro.getAngle()+10));
+    addSequential(new TimeDrive(3));
+    addSequential(new TimeShoot(5));
      
   }
 }

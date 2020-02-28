@@ -17,7 +17,7 @@ public class IntakeCommand extends Command {
 
   public IntakeCommand() {
     // Use requires() here to declare subsystem dependencies
-    requires(Robot.shootSystem);
+    requires(Robot.intakeSystem);
   }
 
   // Called just before this Command runs the first time
@@ -30,10 +30,14 @@ public class IntakeCommand extends Command {
   protected void execute() {
     boolean intakeJoy = OI.leftJoy.getRawButton(2);
 
+    boolean intakeJoy2 = OI.leftJoy.getTrigger();
+
     if(intakeJoy) {
-      Robot.shootSystem.intake(0.5, 0.5);
+      Robot.intakeSystem.intake(0.5, 0.2);
+    } else if(intakeJoy2) {
+      Robot.intakeSystem.intake(-0.5, 0);
     } else {
-      Robot.shootSystem.intake(0, 0);
+      Robot.intakeSystem.intake(0, 0);
     }
   }
 
