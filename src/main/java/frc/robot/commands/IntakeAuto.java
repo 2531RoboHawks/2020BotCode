@@ -8,15 +8,16 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
-import frc.robot.OI;
-// import frc.robot.OI;
 import frc.robot.Robot;
 
-public class Gimble extends Command {
-  public Gimble() {
+public class IntakeAuto extends Command {
+  double pow1;
+  double pow2;
+  public IntakeAuto(double pow1, double pow2) {
+    this.pow1 = pow1;
+    this.pow2 = pow2;
     // Use requires() here to declare subsystem dependencies
-    requires(Robot.servoSystem);
-
+    // eg. requires(chassis);
   }
 
   // Called just before this Command runs the first time
@@ -24,27 +25,10 @@ public class Gimble extends Command {
   protected void initialize() {
   }
 
-  boolean press = false;
-  boolean gone = false;
-
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-
-    if (OI.rightJoy.getRawButton(2) && !gone) {
-      press = !press;
-      gone = true;
-
-    } else if (!OI.rightJoy.getRawButton(2) && gone) {
-      gone = false;
-    }
-
-    if (press) {
-      Robot.servoSystem.toDegree(180, 180);
-    } else {
-      Robot.servoSystem.toDegree(180, 0);
-    }
-
+    Robot.intakeSystem.intake(pow1, pow2);
   }
 
   // Make this return true when this Command no longer needs to run execute()
@@ -62,5 +46,6 @@ public class Gimble extends Command {
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
+    Robot.intakeSystem.stopIntake();
   }
 }

@@ -12,10 +12,11 @@ import frc.robot.OI;
 import frc.robot.Robot;
 
 /**
- * An example command.  You can replace me with your own command.
+ * An example command. You can replace me with your own command.
  */
 public class Drive extends Command {
   boolean lastgear = false;
+
   // TurnToAngle turn = new TurnToAngle(RobotMap.gyro.getAngle() + 90);
   public Drive() {
     // Use requires() here to declare subsystem dependencies
@@ -27,7 +28,7 @@ public class Drive extends Command {
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    
+
   }
 
   // Called repeatedly when this Command is scheduled to run
@@ -48,16 +49,12 @@ public class Drive extends Command {
       }
     }
 
-
     double leftX = OI.leftJoy.getRawAxis(1);
     double leftY = OI.rightJoy.getRawAxis(1);
 
     Robot.driveSystem.tankDrive(leftX, leftY);
-    
 
-    
   }
-
 
   // Make this return true when this Command no longer needs to run execute()
   @Override

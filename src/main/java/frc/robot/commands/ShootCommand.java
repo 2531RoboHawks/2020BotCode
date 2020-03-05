@@ -13,6 +13,7 @@ import frc.robot.Robot;
 
 public class ShootCommand extends Command {
   boolean press = false;
+
   public ShootCommand() {
     // Use requires() here to declare subsystem dependencies
     requires(Robot.shootSystem);
@@ -25,18 +26,18 @@ public class ShootCommand extends Command {
 
   // Called repeatedly when this Command is scheduled to run
   boolean gone = false;
+
   @Override
   protected void execute() {
-    
+
     boolean intakeJoy = OI.leftJoy.getRawButton(3);
     double zAxis = OI.leftJoy.getZ();
     if (intakeJoy) {
-        Robot.shootSystem.shoot(Math.abs(zAxis));
-      } else {
-        Robot.shootSystem.stopShoot();
+      Robot.shootSystem.shoot(Math.abs(zAxis));
+    } else {
+      Robot.shootSystem.stopShoot();
     }
-    
-    
+
   }
 
   // Make this return true when this Command no longer needs to run execute()

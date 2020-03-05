@@ -21,8 +21,6 @@ public class ShootIntakeSystem extends Subsystem {
   TalonSRX bottomIntake = new TalonSRX(12);
   TalonSRX topIntake = new TalonSRX(13);
 
-
-  
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
 
@@ -39,7 +37,5 @@ public class ShootIntakeSystem extends Subsystem {
   public void stopShoot() {
     shoot(0);
   }
-
-
 
 }

@@ -13,8 +13,6 @@ import frc.robot.Robot;
 
 public class IntakeCommand extends Command {
 
-  
-
   public IntakeCommand() {
     // Use requires() here to declare subsystem dependencies
     requires(Robot.intakeSystem);
@@ -32,9 +30,9 @@ public class IntakeCommand extends Command {
 
     boolean intakeJoy2 = OI.leftJoy.getTrigger();
 
-    if(intakeJoy) {
+    if (intakeJoy) {
       Robot.intakeSystem.intake(0.5, 0.2);
-    } else if(intakeJoy2) {
+    } else if (intakeJoy2) {
       Robot.intakeSystem.intake(-0.5, 0);
     } else {
       Robot.intakeSystem.intake(0, 0);

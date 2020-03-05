@@ -45,9 +45,8 @@ public class Robot extends TimedRobot {
 
   public ControlPanel panel = new ControlPanel();
   public ShootCommand shootCommand = new ShootCommand();
-  public IntakeCommand intakeCommand = new  IntakeCommand();
+  public IntakeCommand intakeCommand = new IntakeCommand();
   public Gimble gim = new Gimble();
-
 
   Command m_autonomousCommand;
 
@@ -80,7 +79,7 @@ public class Robot extends TimedRobot {
   @Override
   public void robotPeriodic() {
 
-    SmartDashboard.putNumber("pain2", Math.ceil(OI.leftJoy.getZ()*100));
+    SmartDashboard.putNumber("pain2", Math.ceil(OI.leftJoy.getZ() * 100));
 
     SmartDashboard.putNumber("red", (Math.round(RobotMap.m_colorSensor.getColor().red * 100.0)) / 100.0);
     SmartDashboard.putNumber("green", (Math.round(RobotMap.m_colorSensor.getColor().green * 100.0)) / 100.0);
@@ -92,7 +91,7 @@ public class Robot extends TimedRobot {
 
     panel.start();
     shootCommand.start();
-    
+
   }
 
   /**
@@ -130,14 +129,14 @@ public class Robot extends TimedRobot {
    * the switch structure below with additional strings & commands.
    */
   TurnDrive td = new TurnDrive();
+
   @Override
   public void autonomousInit() {
     m_autonomousCommand = m_chooser.getSelected();
     if (m_autonomousCommand != null) {
       m_autonomousCommand.start();
     }
-    td.start();
-    
+
   }
 
   /**
@@ -146,7 +145,7 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousPeriodic() {
     Scheduler.getInstance().run();
-    
+    td.start();
   }
 
   // private double startTime;
@@ -160,7 +159,6 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
-    
 
   }
 
@@ -175,13 +173,13 @@ public class Robot extends TimedRobot {
     gim.start();
     intakeCommand.start();
     // if (currentTime - startTime >= 5000) {
-    //   shootSystem.shoot(1);
-    //   if (currentTime - startTime >= 7000) {
-    //     shootSystem.stopShoot();
-    //     startTime = System.currentTimeMillis();
-    //   }
+    // shootSystem.shoot(1);
+    // if (currentTime - startTime >= 7000) {
+    // shootSystem.stopShoot();
+    // startTime = System.currentTimeMillis();
     // }
-    
+    // }
+
   }
 
   /**

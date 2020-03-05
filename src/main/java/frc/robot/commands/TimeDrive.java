@@ -14,9 +14,10 @@ public class TimeDrive extends Command {
   private double time;
   private double startTime = System.currentTimeMillis();
   private boolean end = false;
+
   public TimeDrive(double tTime) {
     requires(Robot.driveSystem);
-    this.time = tTime*1000;
+    this.time = tTime * 1000;
   }
 
   // Called just before this Command runs the first time
@@ -30,13 +31,13 @@ public class TimeDrive extends Command {
   protected void execute() {
     double currentTime = System.currentTimeMillis();
 
-    if(currentTime - startTime < time) {
-        Robot.driveSystem.tankDrive(0.5, 0.5);
+    if (currentTime - startTime < time) {
+      Robot.driveSystem.tankDrive(0.5, 0.5);
     } else {
       Robot.driveSystem.stop();
       end = true;
     }
-    
+
   }
 
   // Make this return true when this Command no longer needs to run execute()

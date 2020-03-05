@@ -14,6 +14,7 @@ import frc.robot.RobotMap;
 public class TurnToAngle extends Command {
   double deg;
   private boolean end = false;
+
   /**
    * Creates a new TurnToAngle.
    */
@@ -31,34 +32,33 @@ public class TurnToAngle extends Command {
   @Override
   public void execute() {
     double angle = RobotMap.gyro.getAngle();
-    
-    if(angle - deg > 0.5 || angle - deg < -0.5) {
-    if( angle >= deg) {
 
-      if(Math.abs(angle - deg)/360 < 0.1) {
+    if (angle - deg > 0.5 || angle - deg < -0.5) {
+      if (angle >= deg) {
 
-      Robot.driveSystem.tankDrive(-(Math.abs(angle - deg)/360)-0.3, 0);
-      
-    } else {
-      Robot.driveSystem.tankDrive(-0.75, 0);
-    }
+        if (Math.abs(angle - deg) / 360 < 0.1) {
 
-    }
+          Robot.driveSystem.tankDrive(-(Math.abs(angle - deg) / 360) - 0.3, 0);
 
-    
-    if(RobotMap.gyro.getAngle() <= deg) {
+        } else {
+          Robot.driveSystem.tankDrive(-0.75, 0);
+        }
 
-      if(Math.abs(angle - deg)/360 < 0.1) {
-
-        Robot.driveSystem.tankDrive((Math.abs(angle - deg)/360)+0.3, 0);
-        
-      } else {
-        Robot.driveSystem.tankDrive(0.75, 0);
       }
+
+      if (RobotMap.gyro.getAngle() <= deg) {
+
+        if (Math.abs(angle - deg) / 360 < 0.1) {
+
+          Robot.driveSystem.tankDrive((Math.abs(angle - deg) / 360) + 0.3, 0);
+
+        } else {
+          Robot.driveSystem.tankDrive(0.75, 0);
+        }
+      }
+    } else {
+      end = true;
     }
-  } else {
-    end = true;
-  }
 
   }
 

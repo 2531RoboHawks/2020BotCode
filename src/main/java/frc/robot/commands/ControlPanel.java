@@ -15,6 +15,8 @@ import frc.robot.RobotMap;
 
 public class ControlPanel extends Command {
 
+  edu.wpi.first.wpilibj.Servo plateServo2 = new edu.wpi.first.wpilibj.Servo(3);
+
   public ControlPanel() {
     requires(Robot.canSystem);
   }
@@ -43,7 +45,7 @@ public class ControlPanel extends Command {
   
 
     if (press) {
-
+      plateServo2.setAngle(90);
       double red = (Math.round(RobotMap.m_colorSensor.getColor().red * 10.0)) / 10.0;
       double green = (Math.round(RobotMap.m_colorSensor.getColor().green * 10.0)) / 10.0;
       double blue = (Math.round(RobotMap.m_colorSensor.getColor().blue * 10.0)) / 10.0;
@@ -96,6 +98,7 @@ public class ControlPanel extends Command {
 
     } else {
       Robot.canSystem.stopControlPanel();
+      plateServo2.setAngle(0);
     }
     // System.out.println(red + " " + green + " " + blue);
   }

@@ -7,14 +7,32 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 public class TurnDrive extends CommandGroup {
-  
-  
+
+  DriverStation dStation = DriverStation.getInstance();
+
   public TurnDrive() {
-    addSequential(new TimeDrive(3));
-    addSequential(new TimeShoot(5));
-     
+
+    if (dStation.getLocation() == 0) {
+      addSequential(new TimeDrive(2.8));
+      addSequential(new TimeShoot(), 5);
+      addSequential(new IntakeAuto(-0.5, 0), 5);
+    }
+
+    if (dStation.getLocation() == 1) {
+      addSequential(new TimeDrive(2.8));
+      addSequential(new TimeShoot(), 5);
+      addSequential(new IntakeAuto(-0.5, 0), 5);
+    }
+
+    if (dStation.getLocation() == 2) {
+      addSequential(new TimeDrive(2.8));
+      addSequential(new TimeShoot(), 5);
+      addSequential(new IntakeAuto(-0.5, 0), 5);
+    }
+
   }
 }

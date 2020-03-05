@@ -14,7 +14,9 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  */
 public class ServoSystem extends Subsystem {
   edu.wpi.first.wpilibj.Servo plateServo0 = new edu.wpi.first.wpilibj.Servo(0);
+
   edu.wpi.first.wpilibj.Servo plateServo1 = new edu.wpi.first.wpilibj.Servo(2);
+
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
 
@@ -23,11 +25,9 @@ public class ServoSystem extends Subsystem {
     // Set the default command for a subsystem here.
     // setDefaultCommand(new ServoCommand());
   }
-  
+
   public void toDegree(int deg0, int deg1) {
     plateServo0.setAngle(deg0);
     plateServo1.setAngle(deg1);
-
-    System.out.println(plateServo0.getAngle() + " " + plateServo1.getAngle());
   }
 }

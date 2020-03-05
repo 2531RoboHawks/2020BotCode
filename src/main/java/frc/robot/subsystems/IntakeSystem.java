@@ -32,7 +32,7 @@ public class IntakeSystem extends Subsystem {
   }
 
   public void activateSweeper(boolean run) {
-    if(run) {
+    if (run) {
       sweep.set(ControlMode.PercentOutput, 0.1);
     } else {
       sweep.set(ControlMode.PercentOutput, 0);

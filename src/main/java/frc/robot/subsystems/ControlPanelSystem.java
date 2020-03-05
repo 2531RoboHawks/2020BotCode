@@ -23,27 +23,25 @@ public class ControlPanelSystem extends Subsystem {
   protected void initDefaultCommand() {
 
   }
-  
-  public void spinControlPanel(double pow) 
-  {
+
+  public void spinControlPanel(double pow) {
 
     panelWheel.set(ControlMode.PercentOutput, pow);
     System.out.println(pow);
   }
 
-  public void stopControlPanel() 
-  {
+  public void stopControlPanel() {
     panelWheel.set(ControlMode.PercentOutput, 0);
   }
 
-  // public void activateLifter() 
+  // public void activateLifter()
   // {
-  //   panelLifter.set(ControlMode.PercentOutput, 0.5);
+  // panelLifter.set(ControlMode.PercentOutput, 0.5);
   // }
 
-  // public void deactivateLifter() 
+  // public void deactivateLifter()
   // {
-  //   panelLifter.set(ControlMode.PercentOutput, 0);
+  // panelLifter.set(ControlMode.PercentOutput, 0);
   // }
 
 }
