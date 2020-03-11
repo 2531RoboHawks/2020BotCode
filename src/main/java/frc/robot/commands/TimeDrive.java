@@ -13,11 +13,15 @@ import frc.robot.Robot;
 public class TimeDrive extends Command {
   private double time;
   private double startTime = System.currentTimeMillis();
+  private double power1;
+  private double power2;
   private boolean end = false;
 
-  public TimeDrive(double tTime) {
+  public TimeDrive(double tTime, double p1, double p2) {
     requires(Robot.driveSystem);
     this.time = tTime * 1000;
+    this.power1 = p1;
+    this.power2 = p2;
   }
 
   // Called just before this Command runs the first time
@@ -32,7 +36,7 @@ public class TimeDrive extends Command {
     double currentTime = System.currentTimeMillis();
 
     if (currentTime - startTime < time) {
-      Robot.driveSystem.tankDrive(0.5, 0.5);
+      Robot.driveSystem.tankDrive(power1, power2);
     } else {
       Robot.driveSystem.stop();
       end = true;

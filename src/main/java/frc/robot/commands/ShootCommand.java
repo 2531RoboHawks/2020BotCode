@@ -31,10 +31,11 @@ public class ShootCommand extends Command {
   protected void execute() {
 
     boolean intakeJoy = OI.leftJoy.getRawButton(3);
-    double zAxis = OI.leftJoy.getZ();
     if (intakeJoy) {
-      Robot.shootSystem.shoot(Math.abs(zAxis));
+      Robot.shootSystem.shoot(0.85);
+
     } else {
+
       Robot.shootSystem.stopShoot();
     }
 

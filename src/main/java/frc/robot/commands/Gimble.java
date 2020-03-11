@@ -42,7 +42,7 @@ public class Gimble extends Command {
     if (press) {
       Robot.servoSystem.toDegree(180, 180);
     } else {
-      Robot.servoSystem.toDegree(180, 0);
+      Robot.servoSystem.toDegree(180, 10);
     }
 
   }

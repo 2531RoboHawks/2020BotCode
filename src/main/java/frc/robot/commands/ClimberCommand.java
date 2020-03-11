@@ -8,18 +8,11 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
+import frc.robot.OI;
 import frc.robot.Robot;
 
-public class IntakeAuto extends Command {
-  double pow1;
-  double pow2;
-  double waitTime;
-
-  long currentTime;
-  public IntakeAuto(double pow1, double pow2, double wait) {
-    this.pow1 = pow1;
-    this.pow2 = pow2;
-    this.waitTime = wait;
+public class ClimberCommand extends Command {
+  public ClimberCommand() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
   }
@@ -27,15 +20,38 @@ public class IntakeAuto extends Command {
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    currentTime = System.currentTimeMillis();
   }
+
+  boolean press = false;
+  boolean gone = false;
+
+  boolean press1 = false;
+  boolean gone1 = false;
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-        if(System.currentTimeMillis() - currentTime >= waitTime) {
-      Robot.intakeSystem.intake(pow1, pow2);
+
+    if (OI.gamePad.getRawButton(6) && !gone) {
+      press = !press;
+      gone = true;
+
+    } else if (!OI.gamePad.getRawButton(6) && gone) {
+      gone = false;
     }
+
+    if (press) {
+      Robot.climberSystem.setCylinder(true);
+    } else {
+      Robot.climberSystem.setCylinder(false);
+    }
+
+    if (OI.gamePad.getRawButton(8)) {
+      Robot.climberSystem.climb(0.3);
+    } else {
+      Robot.climberSystem.stopClimb();
+    }
+
   }
 
   // Make this return true when this Command no longer needs to run execute()
@@ -53,6 +69,5 @@ public class IntakeAuto extends Command {
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    Robot.intakeSystem.stopIntake();
   }
 }

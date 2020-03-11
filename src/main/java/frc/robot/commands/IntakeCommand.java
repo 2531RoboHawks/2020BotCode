@@ -29,11 +29,24 @@ public class IntakeCommand extends Command {
     boolean intakeJoy = OI.leftJoy.getRawButton(2);
 
     boolean intakeJoy2 = OI.leftJoy.getTrigger();
+    boolean intakeJoy3 = OI.rightJoy.getRawButton(3);
+    boolean intakeJoy4 = OI.leftJoy.getRawButton(3);
+
 
     if (intakeJoy) {
       Robot.intakeSystem.intake(0.5, 0.2);
+      Robot.shootSystem.shoot(-0.2);
+      Robot.canSystem.spinControlPanel(0.5);
+
     } else if (intakeJoy2) {
       Robot.intakeSystem.intake(-0.5, 0);
+
+    } else if(intakeJoy3) {
+      Robot.intakeSystem.intake(0.5, 0.2);
+      Robot.shootSystem.shoot(-0.4);
+    } else if(intakeJoy4) {
+      Robot.intakeSystem.intake(0.5, 0);
+    
     } else {
       Robot.intakeSystem.intake(0, 0);
     }

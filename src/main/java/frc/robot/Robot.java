@@ -13,12 +13,16 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.commands.ClimberCommand;
 import frc.robot.commands.ControlPanel;
 import frc.robot.commands.Drive;
 import frc.robot.commands.Gimble;
 import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.ShootCommand;
-import frc.robot.commands.TurnDrive;
+import frc.robot.commands.TurnDrive1;
+import frc.robot.commands.TurnDrive2;
+import frc.robot.commands.TurnDrive3;
+import frc.robot.subsystems.ClimberSystem;
 import frc.robot.subsystems.ControlPanelSystem;
 import frc.robot.subsystems.DriveSystem;
 import frc.robot.subsystems.IntakeSystem;
@@ -40,6 +44,7 @@ public class Robot extends TimedRobot {
   public static ServoSystem servoSystem = new ServoSystem();
   public static ShootIntakeSystem shootSystem = new ShootIntakeSystem();
   public static IntakeSystem intakeSystem = new IntakeSystem();
+  public static ClimberSystem climberSystem = new ClimberSystem();
 
   public static OI m_oi;
 
@@ -47,9 +52,10 @@ public class Robot extends TimedRobot {
   public ShootCommand shootCommand = new ShootCommand();
   public IntakeCommand intakeCommand = new IntakeCommand();
   public Gimble gim = new Gimble();
+  public ClimberCommand cc = new ClimberCommand();
 
   Command m_autonomousCommand;
-
+  SendableChooser<Command> auto;
   SendableChooser<Command> m_chooser = new SendableChooser<>();
 
   /**
@@ -60,9 +66,8 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     m_oi = new OI();
     m_chooser.setDefaultOption("Default Auto", new Drive());
-
+    initSmartDashboard();
     CameraServer.getInstance().startAutomaticCapture();
-    SmartDashboard.putData("Auto mode", m_chooser);
     RobotMap.gyro.calibrate();
     // startTime = System.currentTimeMillis();
   }
@@ -79,16 +84,7 @@ public class Robot extends TimedRobot {
   @Override
   public void robotPeriodic() {
 
-    SmartDashboard.putNumber("pain2", Math.ceil(OI.leftJoy.getZ() * 100));
-
-    SmartDashboard.putNumber("red", (Math.round(RobotMap.m_colorSensor.getColor().red * 100.0)) / 100.0);
-    SmartDashboard.putNumber("green", (Math.round(RobotMap.m_colorSensor.getColor().green * 100.0)) / 100.0);
-    SmartDashboard.putNumber("blue", (Math.round(RobotMap.m_colorSensor.getColor().blue * 100.0)) / 100.0);
-    SmartDashboard.putString("Red Should be", "red == 0.5, green == 0.4, blue == 0.1");
-    SmartDashboard.putString("Yellow Should be", "red == 0.3, green == 0.6, blue == 0.1");
-    SmartDashboard.putString("Green Should be", "red == 0.2, green == 0.6, blue == 0.2");
-    SmartDashboard.putString("Blue Should be", "red == 0.2, green == 0.4, blue == 0.4");
-
+    updateSmartDashboard();
     panel.start();
     shootCommand.start();
 
@@ -102,7 +98,6 @@ public class Robot extends TimedRobot {
   @Override
   public void disabledInit() {
     // RobotMap.gyro.calibrate();
-    td.close();
     // startTime = System.currentTimeMillis();
   }
 
@@ -114,6 +109,7 @@ public class Robot extends TimedRobot {
     shootCommand.close();
     intakeCommand.close();
     gim.close();
+    cc.close();
   }
 
   /**
@@ -128,14 +124,13 @@ public class Robot extends TimedRobot {
    * chooser code above (like the commented example) or additional comparisons to
    * the switch structure below with additional strings & commands.
    */
-  TurnDrive td = new TurnDrive();
-
   @Override
   public void autonomousInit() {
-    m_autonomousCommand = m_chooser.getSelected();
+    m_autonomousCommand = auto.getSelected();
     if (m_autonomousCommand != null) {
       m_autonomousCommand.start();
     }
+    
 
   }
 
@@ -145,7 +140,6 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousPeriodic() {
     Scheduler.getInstance().run();
-    td.start();
   }
 
   // private double startTime;
@@ -168,17 +162,10 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     Scheduler.getInstance().run();
-    // double currentTime = System.currentTimeMillis();
-    // panel.start();
+
     gim.start();
     intakeCommand.start();
-    // if (currentTime - startTime >= 5000) {
-    // shootSystem.shoot(1);
-    // if (currentTime - startTime >= 7000) {
-    // shootSystem.stopShoot();
-    // startTime = System.currentTimeMillis();
-    // }
-    // }
+    cc.start();
 
   }
 
@@ -187,6 +174,24 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void testPeriodic() {
+  }
+
+  public void initSmartDashboard() {
+    auto = new SendableChooser<Command>();
+    
+    auto.setDefaultOption("Station 1", new TurnDrive1());
+    auto.addOption("DON'T USE AUTO", null);
+    auto.addOption("Station 2 <-- Only one that works", new TurnDrive2());
+    auto.addOption("Station 3", new TurnDrive3());
+
+    SmartDashboard.putData("Auto", auto);
+  
+
+}
+  
+
+  public void updateSmartDashboard() {
+
   }
 
 }
