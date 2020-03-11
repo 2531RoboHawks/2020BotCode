@@ -9,14 +9,14 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.OI;
-// import frc.robot.OI;
 import frc.robot.Robot;
 
-public class Gimble extends Command {
-  public Gimble() {
-    // Use requires() here to declare subsystem dependencies
-    requires(Robot.servoSystem);
+public class ShootCommand extends Command {
+  boolean press = false;
 
+  public ShootCommand() {
+    // Use requires() here to declare subsystem dependencies
+    requires(Robot.shootSystem);
   }
 
   // Called just before this Command runs the first time
@@ -24,25 +24,19 @@ public class Gimble extends Command {
   protected void initialize() {
   }
 
-  boolean press = false;
+  // Called repeatedly when this Command is scheduled to run
   boolean gone = false;
 
-  // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
 
-    if (OI.rightJoy.getRawButton(2) && !gone) {
-      press = !press;
-      gone = true;
+    boolean intakeJoy = OI.leftJoy.getRawButton(3);
+    if (intakeJoy) {
+      Robot.shootSystem.shoot(0.85);
 
-    } else if (!OI.rightJoy.getRawButton(2) && gone) {
-      gone = false;
-    }
-
-    if (press) {
-      Robot.servoSystem.toDegree(180, 180);
     } else {
-      Robot.servoSystem.toDegree(180, 10);
+
+      Robot.shootSystem.stopShoot();
     }
 
   }

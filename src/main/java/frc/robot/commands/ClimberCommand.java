@@ -9,14 +9,12 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.OI;
-// import frc.robot.OI;
 import frc.robot.Robot;
 
-public class Gimble extends Command {
-  public Gimble() {
+public class ClimberCommand extends Command {
+  public ClimberCommand() {
     // Use requires() here to declare subsystem dependencies
-    requires(Robot.servoSystem);
-
+    // eg. requires(chassis);
   }
 
   // Called just before this Command runs the first time
@@ -27,22 +25,31 @@ public class Gimble extends Command {
   boolean press = false;
   boolean gone = false;
 
+  boolean press1 = false;
+  boolean gone1 = false;
+
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
 
-    if (OI.rightJoy.getRawButton(2) && !gone) {
+    if (OI.gamePad.getRawButton(6) && !gone) {
       press = !press;
       gone = true;
 
-    } else if (!OI.rightJoy.getRawButton(2) && gone) {
+    } else if (!OI.gamePad.getRawButton(6) && gone) {
       gone = false;
     }
 
     if (press) {
-      Robot.servoSystem.toDegree(180, 180);
+      Robot.climberSystem.setCylinder(true);
     } else {
-      Robot.servoSystem.toDegree(180, 10);
+      Robot.climberSystem.setCylinder(false);
+    }
+
+    if (OI.gamePad.getRawButton(8)) {
+      Robot.climberSystem.climb(0.3);
+    } else {
+      Robot.climberSystem.stopClimb();
     }
 
   }

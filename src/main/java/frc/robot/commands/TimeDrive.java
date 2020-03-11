@@ -8,41 +8,38 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
-import frc.robot.OI;
-// import frc.robot.OI;
 import frc.robot.Robot;
 
-public class Gimble extends Command {
-  public Gimble() {
-    // Use requires() here to declare subsystem dependencies
-    requires(Robot.servoSystem);
+public class TimeDrive extends Command {
+  private double time;
+  private double startTime = System.currentTimeMillis();
+  private double power1;
+  private double power2;
+  private boolean end = false;
 
+  public TimeDrive(double tTime, double p1, double p2) {
+    requires(Robot.driveSystem);
+    this.time = tTime * 1000;
+    this.power1 = p1;
+    this.power2 = p2;
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
+    startTime = System.currentTimeMillis();
   }
-
-  boolean press = false;
-  boolean gone = false;
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
+    double currentTime = System.currentTimeMillis();
 
-    if (OI.rightJoy.getRawButton(2) && !gone) {
-      press = !press;
-      gone = true;
-
-    } else if (!OI.rightJoy.getRawButton(2) && gone) {
-      gone = false;
-    }
-
-    if (press) {
-      Robot.servoSystem.toDegree(180, 180);
+    if (currentTime - startTime < time) {
+      Robot.driveSystem.tankDrive(power1, power2);
     } else {
-      Robot.servoSystem.toDegree(180, 10);
+      Robot.driveSystem.stop();
+      end = true;
     }
 
   }
@@ -50,17 +47,19 @@ public class Gimble extends Command {
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return false;
+    return end;
   }
 
   // Called once after isFinished returns true
   @Override
-  protected void end() {
+  public void end() {
+    Robot.driveSystem.stop();
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
+    end();
   }
 }

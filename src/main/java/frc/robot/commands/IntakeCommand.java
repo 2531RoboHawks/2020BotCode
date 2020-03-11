@@ -9,14 +9,13 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.OI;
-// import frc.robot.OI;
 import frc.robot.Robot;
 
-public class Gimble extends Command {
-  public Gimble() {
-    // Use requires() here to declare subsystem dependencies
-    requires(Robot.servoSystem);
+public class IntakeCommand extends Command {
 
+  public IntakeCommand() {
+    // Use requires() here to declare subsystem dependencies
+    requires(Robot.intakeSystem);
   }
 
   // Called just before this Command runs the first time
@@ -24,27 +23,33 @@ public class Gimble extends Command {
   protected void initialize() {
   }
 
-  boolean press = false;
-  boolean gone = false;
-
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
+    boolean intakeJoy = OI.leftJoy.getRawButton(2);
 
-    if (OI.rightJoy.getRawButton(2) && !gone) {
-      press = !press;
-      gone = true;
+    boolean intakeJoy2 = OI.leftJoy.getTrigger();
+    boolean intakeJoy3 = OI.rightJoy.getRawButton(3);
+    boolean intakeJoy4 = OI.leftJoy.getRawButton(3);
 
-    } else if (!OI.rightJoy.getRawButton(2) && gone) {
-      gone = false;
-    }
 
-    if (press) {
-      Robot.servoSystem.toDegree(180, 180);
+    if (intakeJoy) {
+      Robot.intakeSystem.intake(0.5, 0.2);
+      Robot.shootSystem.shoot(-0.2);
+      Robot.canSystem.spinControlPanel(0.5);
+
+    } else if (intakeJoy2) {
+      Robot.intakeSystem.intake(-0.5, 0);
+
+    } else if(intakeJoy3) {
+      Robot.intakeSystem.intake(0.5, 0.2);
+      Robot.shootSystem.shoot(-0.4);
+    } else if(intakeJoy4) {
+      Robot.intakeSystem.intake(0.5, 0);
+    
     } else {
-      Robot.servoSystem.toDegree(180, 10);
+      Robot.intakeSystem.intake(0, 0);
     }
-
   }
 
   // Make this return true when this Command no longer needs to run execute()

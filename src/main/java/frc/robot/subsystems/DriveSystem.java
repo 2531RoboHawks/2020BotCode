@@ -7,69 +7,53 @@
 
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj.Spark;
-import edu.wpi.first.wpilibj.Talon;
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.commands.Drive;
 
-/**
- * An example subsystem.  You can replace me with your own Subsystem.
- */
 public class DriveSystem extends Subsystem {
 
-  private Spark backRight = new Spark(0);
-  private Spark frontRight = new Spark(1);
-  private Spark frontLeft = new Spark(2);
-  private Spark backLeft = new Spark(3);
+  // motors
+  private TalonSRX leftMotor1 = new TalonSRX(5);
+  private TalonSRX leftMotor2 = new TalonSRX(6);
+  private TalonSRX rightMotor1 = new TalonSRX(7);
+  private TalonSRX rightMotor2 = new TalonSRX(8);
 
-  private Talon centerMotor = new Talon(4);
-  
-  
+  // pneumatics
+  private Solenoid shifterHigh = new Solenoid(0);
+  private Solenoid shifterLow = new Solenoid(1);
+
   @Override
   public void initDefaultCommand() {
     setDefaultCommand(new Drive());
   }
 
-  public void mecanumDrive(double x, double y, double r) {
+  public void tankDrive(double leftPower, double rightPower) {
+    leftMotor1.set(ControlMode.PercentOutput, leftPower);
+    leftMotor2.set(ControlMode.PercentOutput, leftPower);
+    rightMotor1.set(ControlMode.PercentOutput, -rightPower);
+    rightMotor2.set(ControlMode.PercentOutput, -rightPower);
+  }
 
-		// double a = Math.atan2(y, x);
-		// double pFL = (Math.abs(Math.sin(a)) * y) - (Math.abs(Math.cos(a)) * x) + r;
-		// double pFR = (Math.abs(Math.sin(a)) * y) - (Math.abs(Math.cos(a)) * x) + r;
-		// double pBL = (Math.abs(Math.sin(a)) * y) + (Math.abs(Math.cos(a)) * x) + r;
-		// double pBR = (Math.abs(Math.sin(a)) * y) + (Math.abs(Math.cos(a)) * x) + r;
-		// frontLeft.set(pFL);
-		// backLeft.set(-pBL);
-		// frontRight.set(-pFR);
-    // backRight.set(pBR);
-    
-    frontLeft.set(y - x - r);
-    frontRight.set(y + x - r);
+  public void arcadeDrive(double power, double steering) {
+    double leftPower = (power + steering);
+    double rightPower = (power - steering);
+    tankDrive(leftPower, rightPower);
+  }
 
-    backLeft.set(-y - x - r);
-    backRight.set(-y + x - r);
-}
+  public void shiftGear(boolean high) {
+    shifterHigh.set(!high);
+    shifterLow.set(high);
+  }
 
-public void rocker(double leftPow, double rightPow, double centerPow) {
-  frontLeft.set(-leftPow);
-  backLeft.set(-leftPow);
-  frontRight.set(rightPow);
-  backRight.set(rightPow);
-  centerMotor.set(centerPow);
-}
+  public boolean isHighGear() {
+    return shifterHigh.get();
+  }
 
-public void rockerArcade(double xPow, double yPow) {
-  frontLeft.set(-yPow + -xPow);
-  backLeft.set(-yPow + xPow);
-  frontRight.set(yPow + -xPow);
-  backRight.set(yPow + xPow);
-}
-
-public void mecStop() {
-  mecanumDrive(0.0D, 0.0D, 0.0D);
-}
-
-public void rocStop() {
-  rocker(0.0D, 0.0D, 0.0D);
-}
-
+  public void stop() {
+    tankDrive(0, 0);
+  }
 }
