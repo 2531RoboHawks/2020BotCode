@@ -7,6 +7,8 @@
 
 package frc.robot;
 
+import org.photonvision.PhotonCamera;
+
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
@@ -28,6 +30,7 @@ import frc.robot.subsystems.DriveSystem;
 import frc.robot.subsystems.IntakeSystem;
 import frc.robot.subsystems.ServoSystem;
 import frc.robot.subsystems.ShootIntakeSystem;
+import frclib.vision.Camera;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -45,7 +48,7 @@ public class Robot extends TimedRobot {
   public static ShootIntakeSystem shootSystem = new ShootIntakeSystem();
   public static IntakeSystem intakeSystem = new IntakeSystem();
   public static ClimberSystem climberSystem = new ClimberSystem();
-
+  public static PhotonCamera camera = new PhotonCamera("MyCamera");
   public static OI m_oi;
 
   public ControlPanel panel = new ControlPanel();
@@ -53,6 +56,8 @@ public class Robot extends TimedRobot {
   public IntakeCommand intakeCommand = new IntakeCommand();
   public Gimble gim = new Gimble();
   public ClimberCommand cc = new ClimberCommand();
+  
+ 
 
   Command m_autonomousCommand;
   SendableChooser<Command> auto;
@@ -67,7 +72,8 @@ public class Robot extends TimedRobot {
     m_oi = new OI();
     m_chooser.setDefaultOption("Default Auto", new Drive());
     initSmartDashboard();
-    CameraServer.getInstance().startAutomaticCapture();
+    
+
     RobotMap.gyro.calibrate();
     // startTime = System.currentTimeMillis();
   }
@@ -87,6 +93,8 @@ public class Robot extends TimedRobot {
     updateSmartDashboard();
     panel.start();
     shootCommand.start();
+
+
 
   }
 
